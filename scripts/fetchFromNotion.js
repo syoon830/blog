@@ -39,7 +39,23 @@ async function fetchNotionData() {
   await clearPostsDirectory();
 
   for (const page of response.results) {
-      const frontmatter = `---\ntitle: ${page.properties.Name.title[0].plain_text}\n---\n`;
+      const title = page.properties.Name.title[0].plain_text;
+      let tags = "[";
+      const date = page.properties.Date.date.start;
+      page.properties.Tags.multi_select.forEach((item, idx, arr) => {
+        tags += "'";
+        tags += item.name;
+        tags += "'";
+        if (idx !== arr.length - 1 ) {
+          tags += ",";
+        }
+      })
+      tags += "]";
+      let frontmatter = `---\n`;
+      frontmatter += `title: ${title}\n`;
+      frontmatter += `tags: ${tags}\n`;
+      frontmatter += `date: ${date}\n`;
+      frontmatter += `---`;
       const contentMd = await getPageContent(page.id);
       await writeFile(`./content/posts/${page.id}.md`, frontmatter + contentMd);
   }
