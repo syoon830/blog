@@ -11,7 +11,6 @@ data.forEach(item => {
 tags.value = Array.from(tagsSet);
 </script>
 <template>
-  <h1><nuxt-link to="/">seungyoon</nuxt-link></h1>
     <ul>
       <li v-for="tag in tags">
           <NuxtLink :to="`/tags/${tag}`">{{ tag }}</NuxtLink>
