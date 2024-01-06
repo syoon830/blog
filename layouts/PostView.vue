@@ -1,4 +1,11 @@
+<script setup lang="ts">
+</script>
+
 <template>
-  <h1><nuxt-link to="/">seungyoon</nuxt-link></h1>
-  <slot />
+  <Header />
+  <div class="layout">
+    <div class="layout-content">
+      <slot />
+    </div>
+  </div>
 </template>
