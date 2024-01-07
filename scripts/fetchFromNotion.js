@@ -10,6 +10,22 @@ config();
 const notion = new Client({ auth: process.env.NOTION_API_KEY });
 const n2m = new NotionToMarkdown({ notionClient: notion });
 
+n2m.setCustomTransformer("callout",  async (block) => {
+  const { callout } = block;
+  const icon = callout.icon.emoji;
+  let plain_text = '';
+  callout.rich_text.forEach(text => {
+    plain_text += text.plain_text;
+  })
+  return `<aside emogi="${icon}" color="purple">${plain_text}</aside>`;
+});
+
+n2m.setCustomTransformer("image",  async (block) => {
+  const { image } = block;
+  const src = image.file.url;
+  return `<img src="${src}" />`;
+});
+
 async function clearPostsDirectory() {
     const directoryPath = path.join('./content/posts');
     const files = await readdir(directoryPath);
