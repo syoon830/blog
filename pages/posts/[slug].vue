@@ -9,7 +9,7 @@
   import Bulleted_list_item_block from "~/components/notion/bulleted_list_item_block.vue";
 
   definePageMeta({
-    layout: 'post-view'
+    layout: 'post-view-layout'
   })
 </script>
 
