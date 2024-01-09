@@ -15,7 +15,6 @@
 
 <template>
   <ContentDoc v-slot="{ doc }">
-    {{ doc.tags }}
     <article>
       <div style="width: 100%; display: flex; flex-direction: column; align-items: center; flex-shrink: 0; flex-grow: 0;">
         <div style="max-width: 100%; padding-left: calc(0px + env(safe-area-inset-left)); width: 100%;">
@@ -50,11 +49,11 @@
       <div class="pt-2 pb-6">
         <p>
         Tags:
-          <a href="/blog/tags/nuxt/" class="bg-blue-500 p-0 py-1 px-2 rounded-md mr-2 truncate ui-tag text-white">
+          <a v-for="tag in doc.tags" :href="`/blog/tags/${tag}`" class="bg-blue-500 p-0 py-1 px-2 rounded-md mr-2 truncate ui-tag text-white">
             <svg data-v-88374534="" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-kt-ice-white dark:text-text-kt-dark inline">
               <path data-v-88374534="" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
             </svg>
-            nuxt
+            {{ tag }}
           </a>
         </p>
       </div>
