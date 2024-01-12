@@ -3,12 +3,12 @@ const { child } = defineProps(['child']);
 </script>
 
 <template>
-  <div class="notion-selectable notion-text-block" style="width: 100%; margin-top: 2px; margin-bottom: 1px;">
+  <div style="width: 100%; margin-top: 2px; margin-bottom: 1px;">
     <div style="color: inherit; fill: inherit;">
       <div style="display: flex;">
-        <div class="notranslate" spellcheck="true" placeholder=" " style="max-width: 100%; width: 100%; white-space: pre-wrap; word-break: break-word; caret-color: rgb(55, 53, 47); padding: 3px 2px;">
+        <div style="max-width: 100%; width: 100%; white-space: pre-wrap; word-break: break-word; caret-color: rgb(55, 53, 47); padding: 3px 2px;">
           <template v-for="text in child.children">
-            <span v-if="text.tag === 'code'" style="font-family:&quot;SFMono-Regular&quot;, Menlo, Consolas, &quot;PT Mono&quot;, &quot;Liberation Mono&quot;, Courier, monospace;line-height:normal;background:rgba(135,131,120,.15);color:#EB5757;border-radius:4px;font-size:85%;padding:0.2em 0.4em" data-token-index="1" spellcheck="false" class="notion-enable-hover">
+            <span v-if="text.tag === 'code'" style="font-family:'SFMono-Regular', Menlo, Consolas, 'PT Mono', 'Liberation Mono', Courier, monospace;line-height:normal;background:rgba(135,131,120,.15);color:#EB5757;border-radius:4px;font-size:85%;padding:0.2em 0.4em">
               <template v-for="code in text.children">
                 {{ code.value }}
               </template>

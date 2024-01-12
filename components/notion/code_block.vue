@@ -13,8 +13,8 @@ onMounted(() => {
 </script>
 
 <template>
-  <div data-block-id="77677a35-3149-4bab-8374-282c9f0db176" class="notion-selectable notion-code-block" style="width: 100%; margin-top: 4px; margin-bottom: 4px;">
-    <div class="notranslate" style="flex-grow: 1; flex-shrink: 1; text-align: left; font-family: SFMono-Regular, Menlo, Consolas, &quot;PT Mono&quot;, &quot;Liberation Mono&quot;, Courier, monospace; font-size: 85%; tab-size: 2; min-height: 1em; color: rgb(55, 53, 47); white-space: pre-wrap; word-break: break-all; min-width: 0px;">
+  <div style="width: 100%; margin-top: 4px; margin-bottom: 4px;">
+    <div style="flex-grow: 1; flex-shrink: 1; text-align: left; font-family: SFMono-Regular, Menlo, Consolas, 'PT Mono', 'Liberation Mono', Courier, monospace; font-size: 85%; tab-size: 2; min-height: 1em; color: rgb(55, 53, 47); white-space: pre-wrap; word-break: break-all; min-width: 0px;">
       <pre><code :class="language_class">{{ code }}</code></pre>
     </div>
 <!--
