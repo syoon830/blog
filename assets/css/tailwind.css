@@ -3,13 +3,14 @@
 @tailwind utilities;
 
 .layout {
-    --content-width: minmax(auto,708px);
-    --margin-width: minmax(96px,1fr);
-    display: grid;
-    grid-template-columns: [full-start] var(--margin-left-width,var(--margin-width)) [content-start] var(--content-width) [content-end] var(--margin-right-width,var(--margin-width)) [full-end];
-    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
 }
 .layout-content {
-    grid-column: content;
-    min-width: 0;
+    padding: 0 24px;
+}
+@media only screen and (min-width: 768px) {
+    .layout-content {
+        padding: 0 96px;
+    }
 }
