@@ -1,6 +1,6 @@
 <script setup lang="ts">
 definePageMeta({
-  layout: 'post-list'
+  layout: 'post-list-layout'
 })
 import type { QueryBuilderParams } from '@nuxt/content/dist/runtime/types'
 
