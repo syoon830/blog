@@ -8,8 +8,6 @@ const formattedDate = (date: string) => {
 </script>
 
 <template>
-  <div class="container mx-auto p-4">
-  </div>
   <ContentList :query="query" v-slot="{ list }">
     <ul class="list-none">
       <li class="border-b border-gray-200 py-2" v-for="post in list">
