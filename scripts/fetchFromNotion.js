@@ -10,6 +10,53 @@ config();
 const notion = new Client({ auth: process.env.NOTION_API_KEY });
 const n2m = new NotionToMarkdown({ notionClient: notion });
 
+function createHtmlString(annotations, text) {
+  let html = text;
+  // 순서 중요
+  // <b><font color="red"> : O
+  // <font color="red"><b> : X
+
+  // color 처리
+  if (annotations.color && annotations.color !== 'default') {
+    html = `<font color="${annotations.color}">${html}</font>`;
+  }
+
+  // italic 처리
+  if (annotations.italic) {
+    html = `<i>${html}</i>`;
+  }
+
+  // bold 처리
+  if (annotations.bold) {
+    html = `<b>${html}</b>`;
+  }
+
+  // code 처리
+  if (annotations.code) {
+    html = `\`${html}\``;
+  }
+
+  return html;
+
+}
+n2m.setCustomTransformer("bulleted_list_item", async(block) => {
+  const { bulleted_list_item } = block;
+  let plain_text = '- ';
+  bulleted_list_item.rich_text.forEach(text => {
+    plain_text += createHtmlString(text.annotations, text.plain_text);
+  })
+  return plain_text;
+})
+
+n2m.setCustomTransformer("quote", async (block) => {
+  const { quote } = block;
+  let plain_text = '> ';
+  quote.rich_text.forEach(text => {
+    plain_text += createHtmlString(text.annotations, text.plain_text);
+  })
+  return plain_text;
+})
+
 n2m.setCustomTransformer("callout",  async (block) => {
   const { callout } = block;
   const icon = callout.icon.emoji;
@@ -19,6 +66,19 @@ n2m.setCustomTransformer("callout",  async (block) => {
   })
   return `<aside emogi="${icon}" color="purple">${plain_text}</aside>`;
 });
+
+n2m.setCustomTransformer("paragraph",  async (block) => {
+  const { paragraph } = block;
+  let plain_text = '';
+  // 줄바꿈
+  if (paragraph.rich_text.length === 0) {
+    return "\\n"
+  }
+  paragraph.rich_text.forEach(text => {
+    plain_text += createHtmlString(text.annotations, text.plain_text);
+  })
+  return plain_text;
+})
 
 n2m.setCustomTransformer("image",  async (block) => {
   const { image } = block;
