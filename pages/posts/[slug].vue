@@ -8,6 +8,7 @@
   import Code_block from "~/components/notion/code_block.vue";
   import Bulleted_list_item_block from "~/components/notion/bulleted_list_item_block.vue";
   import PostViewTitle from "~/components/PostViewTitle.vue";
+  import Divider_block from "~/components/notion/divider_block.vue";
 
   definePageMeta({
     layout: 'post-view-layout'
@@ -52,10 +53,16 @@
           v-if="child.tag === 'ul'"
           :child="child"
         />
+        <divider_block
+          v-if="child.tag === 'hr'"
+        />
       </template>
     </article>
   </ContentDoc>
-  <Utterances />
+  <!-- 모바일에서 댓글 안나오는 포스트도 있어서 아래 여백 줌 -->
+  <div class="pb-4">
+    <Utterances />
+  </div>
 </template>
 
 <style scoped>
