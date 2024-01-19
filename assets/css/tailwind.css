@@ -34,3 +34,14 @@
 .notion-font-color-yellow_background {
     background: rgba(251, 243, 219, 1);
 }
+
+.pseudoBefore:before {
+    background: var(--pseudoBefore--background);
+    border: var(--pseudoBefore--border);
+    color: var(--pseudoBefore--color);
+    content: var(--pseudoBefore--content);
+    display: var(--pseudoBefore--display)!important;
+    font-family: var(--pseudoBefore--fontFamily);
+    height: var(--pseudoBefore--height);
+    width: var(--pseudoBefore--width)
+}
