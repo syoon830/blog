@@ -1,5 +1,6 @@
 <script setup lang="ts">
 const { child } = defineProps(['child']);
+import { format } from "~/utils/mdToHtml";
 </script>
 
 <template>
@@ -7,11 +8,7 @@ const { child } = defineProps(['child']);
     <blockquote style="margin: 0px; font-size: 1em; padding: 3px 2px; color: inherit; fill: inherit; display: flex;">
       <div style="border-left: 3px solid currentcolor; padding-left: 14px; padding-right: 14px; width: 100%;">
         <div style="max-width: 100%; width: 100%; white-space: pre-wrap; word-break: break-word; caret-color: rgb(55, 53, 47); padding-left: 2px; padding-right: 2px;">
-          <template v-for="quotes in child.children">
-            <template v-for="text in quotes.children">
-              {{ text.value }}
-            </template>
-          </template>
+          <span v-html="format(child)"></span>
         </div>
         <div></div>
       </div>
