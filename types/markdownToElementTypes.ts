@@ -1,4 +1,4 @@
-type mdToElementTag = 'i' | 'font' | 'a' | 'p' | 'b' | 'code' | 'strong';
+type mdToElementTag = 'i' | 'font' | 'a' | 'p' | 'b' | 'code' | 'strong' | 'li' | 'ol' | 'ul' | 'em' | 'u';
 type mdToElementType = 'text' | 'element';
 
 type mdToElementShape = {
