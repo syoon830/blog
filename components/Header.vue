@@ -1,9 +1,9 @@
 <template>
-  <header class="bg-blue-500 p-4 text-white">
-    <div class="container mx-auto flex justify-between items-center">
-      <!-- 로고 시작 -->
-      <NuxtLink to="/" class="text-2xl font-semibold">seungyoon</NuxtLink>
-      <!-- 로고 끝 -->
+  <header class="py-4 border-b border-gray-200">
+    <div class="layout mx-auto flex justify-between items-center">
+      <div class="layout-content">
+        <NuxtLink to="/" class="text-2xl font-semibold">seungyoon</NuxtLink>
+      </div>
     </div>
   </header>
 </template>
