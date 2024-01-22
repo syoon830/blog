@@ -9,6 +9,7 @@
   import Bulleted_list_item_block from "~/components/notion/bulleted_list_item_block.vue";
   import PostViewTitle from "~/components/PostViewTitle.vue";
   import Divider_block from "~/components/notion/divider_block.vue";
+  import Numbered_list_item_block from "~/components/notion/numbered_list_item_block.vue";
 
   definePageMeta({
     layout: 'post-view-layout'
@@ -52,6 +53,10 @@
         <bulleted_list_item_block
           v-if="child.tag === 'ul'"
           :child="child"
+        />
+        <numbered_list_item_block
+            v-if="child.tag === 'ol'"
+            :child="child"
         />
         <divider_block
           v-if="child.tag === 'hr'"
