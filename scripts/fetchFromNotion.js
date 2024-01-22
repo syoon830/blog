@@ -10,7 +10,11 @@ config();
 const notion = new Client({ auth: process.env.NOTION_API_KEY });
 const n2m = new NotionToMarkdown({ notionClient: notion });
 
-function createHtmlString(annotations, text) {
+/**
+ * 단순하게 하자
+ * 일단 markdown에서 사용할수 있는것만 사용하자
+ */
+/*function createHtmlString(annotations, text) {
   let html = text;
   // 순서 중요
   // <b><font color="red"> : O
@@ -55,7 +59,7 @@ n2m.setCustomTransformer("quote", async (block) => {
     plain_text += createHtmlString(text.annotations, text.plain_text);
   })
   return plain_text;
-})
+})*/
 
 n2m.setCustomTransformer("callout",  async (block) => {
   const { callout } = block;
@@ -69,17 +73,12 @@ n2m.setCustomTransformer("callout",  async (block) => {
 
 n2m.setCustomTransformer("paragraph",  async (block) => {
   const { paragraph } = block;
-  let plain_text = '';
   // 줄바꿈
   if (paragraph.rich_text.length === 0) {
     return "\\n"
   }
-  paragraph.rich_text.forEach(text => {
-    plain_text += createHtmlString(text.annotations, text.plain_text);
-  })
-  return plain_text;
+  return paragraph;
 })
-
 n2m.setCustomTransformer("image",  async (block) => {
   const { image } = block;
   const src = image.file.url;
