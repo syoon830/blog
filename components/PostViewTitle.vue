@@ -1,12 +1,17 @@
 <script setup lang="ts">
-const { doc } = defineProps(['doc']);
+const { doc: { date: string } } = defineProps(['doc']);
+
+const formattedDate = (date: string) => {
+  const dateTime = new Date(date);
+  return dateTime.toISOString().split('T')[0];
+}
 </script>
 
 <template>
   <div style="width: 100%; display: flex; flex-direction: column; align-items: center; flex-shrink: 0; flex-grow: 0;">
     <div style="max-width: 100%; padding-left: calc(0px + env(safe-area-inset-left)); width: 100%;">
       <div style="user-select: none; --pseudoSelection--background: transparent; pointer-events: none;">
-        <div style="display: flex; justify-content: flex-start; flex-wrap: wrap; margin-top: 80px; margin-bottom: 4px; margin-left: -1px; color: rgba(55, 53, 47, 0.5); font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, 'Apple Color Emoji', Arial, sans-serif, 'Segoe UI Emoji', 'Segoe UI Symbol'; pointer-events: auto;"></div>
+        <div style="display: flex; justify-content: flex-start; flex-wrap: wrap; margin-top: 40px; margin-bottom: 4px; margin-left: -1px; color: rgba(55, 53, 47, 0.5); font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, 'Apple Color Emoji', Arial, sans-serif, 'Segoe UI Emoji', 'Segoe UI Symbol'; pointer-events: auto;"></div>
       </div>
       <div style="padding-right: calc(0px + env(safe-area-inset-right));">
         <div>
@@ -20,19 +25,33 @@ const { doc } = defineProps(['doc']);
       </div>
     </div>
   </div>
-  <div class="pt-2 pb-6">
-    <p>
-      Tags:
-      <a v-for="tag in doc.tags" :href="`/blog/tags/${tag}`" class="bg-blue-500 p-0 py-1 px-2 rounded-md mr-2 truncate ui-tag text-white">
-        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-kt-ice-white dark:text-text-kt-dark inline">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z"></path>
-        </svg>
-        {{ tag }}
-      </a>
-    </p>
+  <div class="layout-content-with-divider">
+    <div style="font-size: 14px; color: rgba(55, 53, 47, 0.65);">
+      <div style="padding: 8px 0px;">
+        <div style="padding-top: 8px;">
+          <div style="padding-bottom: 8px;">
+            <div class="flex items-center gap-3 p-2">
+              <span>Tags:</span>
+              <div style="display: flex; flex-wrap: wrap; gap: 6px 8px;">
+                <NuxtLink v-for="tag in doc.tags" :to="`/tags/${tag}`" class="flex items-center bg-blue-500 p-0  px-2 rounded-md mr-2 truncate text-white">
+                  {{ tag }}
+                </NuxtLink>
+              </div>
+            </div>
+            <div class="flex items-center gap-3 p-2">
+              <span>Date:</span>
+              <span class="text-black">{{ formattedDate(doc.date) }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <style scoped>
-
+.layout-content-with-divider {
+  border-bottom: 1px solid rgba(55,53,47,.09);
+  margin-bottom: 8px
+}
 </style>
