@@ -3,6 +3,9 @@ import { Client } from '@notionhq/client';
 import { writeFile, readdir, unlink } from 'fs/promises';
 import { NotionToMarkdown } from 'notion-to-md';
 import path from 'path';
+import * as fs from "fs";
+import * as https from "https";
+import { v4 as uuidv4 } from 'uuid';
 
 // .env 파일에서 환경변수 불러오기
 config();
@@ -82,7 +85,24 @@ n2m.setCustomTransformer("paragraph",  async (block) => {
 n2m.setCustomTransformer("image",  async (block) => {
   const { image } = block;
   const src = image.file.url;
-  return `<img src="${src}" />`;
+  const dirPath = `./public/images/`
+  fs.mkdirSync(dirPath, { recursive: true });
+
+  const fileName = `${uuidv4()}.png`
+  const filePath = dirPath + fileName;
+  const file = fs.createWriteStream(filePath);
+
+  https.get(src, (res) => {
+    res.pipe(file);
+
+    file.on('finish', function() {
+      file.close();
+    });
+  }).on('error', function(err) {
+    fs.unlink(filePath); // 파일 다운로드 실패시 파일 삭제
+    console.error('Error: ' + err.message);
+  });
+  return `<img src="/images/${fileName}" />`;
 });
 
 async function clearPostsDirectory() {
