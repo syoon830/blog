@@ -113,6 +113,14 @@ async function clearPostsDirectory() {
     }
 }
 
+async function clearPostImagesDirectory() {
+  const directoryPath = path.join('./public/images/');
+  const files = await readdir(directoryPath);
+  for (const file of files) {
+    await unlink(path.join(directoryPath, file));
+  }
+}
+
 async function getPageContent(pageId) {
   const mdblocks = await n2m.pageToMarkdown(pageId);
   const mdString = n2m.toMarkdownString(mdblocks);
@@ -132,6 +140,7 @@ async function fetchNotionData() {
   });
 
   await clearPostsDirectory();
+  await clearPostImagesDirectory();
 
   for (const page of response.results) {
       const title = page.properties.Name.title[0].plain_text;
