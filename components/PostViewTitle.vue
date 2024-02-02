@@ -32,8 +32,8 @@ const formattedDate = (date: string) => {
           <div style="padding-bottom: 8px;">
             <div class="flex items-center gap-3 p-2">
               <span>Tags:</span>
-              <div style="display: flex; flex-wrap: wrap; gap: 6px 8px;">
-                <NuxtLink v-for="tag in doc.tags" :to="`/tags/${tag}`" class="flex items-center bg-blue-500 p-0  px-2 rounded-md mr-2 truncate text-white">
+              <div class="flex flex-wrap gap-2">
+                <NuxtLink v-for="tag in doc.tags" :to="`/tags/${tag}`" class="text-sm flex items-center p-1 px-2 rounded-md truncate text-white bg-blue-500">
                   {{ tag }}
                 </NuxtLink>
               </div>
