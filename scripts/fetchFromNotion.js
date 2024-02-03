@@ -102,7 +102,7 @@ n2m.setCustomTransformer("image",  async (block) => {
     fs.unlink(filePath); // 파일 다운로드 실패시 파일 삭제
     console.error('Error: ' + err.message);
   });
-  return `<img src="/images/${fileName}" />`;
+  return `<img src="/blog/images/${fileName}" />`;
 });
 
 async function clearPostsDirectory() {
