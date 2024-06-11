@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import Callout_block from "~/components/notion/callout_block.vue";
 import Paragraph_block from "~/components/notion/paragraph_block.vue";
+import Heading_1_block from "~/components/notion/heading_1_block.vue";
 import Heading_2_block from "~/components/notion/heading_2_block.vue";
 import Quote_block from "~/components/notion/quote_block.vue";
 import Heading_3_block from "~/components/notion/heading_3_block.vue";
@@ -22,6 +23,7 @@ definePageMeta({
       <PostViewTitle :doc="doc" />
       <template v-for="child in doc.body.children">
         <!--        <p>tag: {{ child.tag }}</p>-->
+        <heading_1_block v-if="child.tag === 'h1'" :child="child" />
         <heading_2_block v-if="child.tag === 'h2'" :child="child" />
         <heading_3_block v-if="child.tag === 'h3'" :child="child" />
         <paragraph_block v-if="child.tag === 'p'" :child="child" />

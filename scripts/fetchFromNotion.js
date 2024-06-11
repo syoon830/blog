@@ -23,14 +23,9 @@ function createHtmlString(annotations, text) {
   // <b><font color="red"> : O
   // <font color="red"><b> : X
 
-  // color 처리
-  if (annotations.color && annotations.color !== 'default') {
-    html = `<font color="${annotations.color}">${html}</font>`;
-  }
-
   // italic 처리
   if (annotations.italic) {
-    html = `<i>${html}</i>`;
+    html = `<em>${html}</em>`;
   }
 
   // bold 처리
@@ -41,6 +36,21 @@ function createHtmlString(annotations, text) {
   // code 처리
   if (annotations.code) {
     html = `<code>${html}</code>`;
+  }
+
+  // undeline
+  if (annotations.underline) {
+    html = `<u>${html}</u>`;
+  };
+
+  // strike
+  if (annotations.strikethrough) {
+    html = `<s>${html}</s>`;
+  };
+
+  // color 처리
+  if (annotations.color && annotations.color !== 'default') {
+    html = `<font color="${annotations.color}">${html}</font>`;
   }
 
   return html;

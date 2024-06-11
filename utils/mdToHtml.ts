@@ -32,6 +32,12 @@ const format = (obj: mdToElementShape, textPrint: boolean = true) => {
                 return;
             }
 
+            // strike
+            if (item.tag === 's') {
+                text += `<s>${format(item)}</s>`;
+                return;
+            }
+
             if (item.tag === 'font') {
                 if (item.props.color) {
                     text += `<span class="notion-font-color-${item.props.color}">${format(item)}</span>`;
