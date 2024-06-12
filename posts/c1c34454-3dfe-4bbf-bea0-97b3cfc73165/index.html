@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html >
+<head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>자바스크립트 - 19. 실행 컨텍스트</title>
+<meta property="og:title" content="자바스크립트 - 19. 실행 컨텍스트">
+<meta name="description" content="실행 컨텍스트는 자바스크립트의 동작 원리를 담고 있는 핵심 개념">
+<meta property="og:description" content="실행 컨텍스트는 자바스크립트의 동작 원리를 담고 있는 핵심 개념">
+<link rel="preload" as="fetch" crossorigin="anonymous" href="/blog/posts/c1c34454-3dfe-4bbf-bea0-97b3cfc73165/_payload.json">
+<style>code[class*=language-],pre[class*=language-]{background:none;color:#000;font-family:Consolas,Monaco,Andale Mono,Ubuntu Mono,monospace;font-size:1em;text-align:left;text-shadow:0 1px #fff;white-space:pre;word-break:normal;word-spacing:normal;word-wrap:normal;-webkit-hyphens:none;hyphens:none;line-height:1.5;-moz-tab-size:4;-o-tab-size:4;tab-size:4}code[class*=language-] ::-moz-selection,code[class*=language-]::-moz-selection,pre[class*=language-] ::-moz-selection,pre[class*=language-]::-moz-selection{background:#b3d4fc;text-shadow:none}code[class*=language-] ::selection,code[class*=language-]::selection,pre[class*=language-] ::selection,pre[class*=language-]::selection{background:#b3d4fc;text-shadow:none}@media print{code[class*=language-],pre[class*=language-]{text-shadow:none}}pre[class*=language-]{margin:.5em 0;overflow:auto;padding:1em}:not(pre)>code[class*=language-],pre[class*=language-]{background:#f5f2f0}:not(pre)>code[class*=language-]{border-radius:.3em;padding:.1em;white-space:normal}.token.cdata,.token.comment,.token.doctype,.token.prolog{color:#708090}.token.punctuation{color:#999}.token.namespace{opacity:.7}.token.boolean,.token.constant,.token.deleted,.token.number,.token.property,.token.symbol,.token.tag{color:#905}.token.attr-name,.token.builtin,.token.char,.token.inserted,.token.selector,.token.string{color:#690}.language-css .token.string,.style .token.string,.token.entity,.token.operator,.token.url{background:hsla(0,0%,100%,.5);color:#9a6e3a}.token.atrule,.token.attr-value,.token.keyword{color:#07a}.token.class-name,.token.function{color:#dd4a68}.token.important,.token.regex,.token.variable{color:#e90}.token.bold,.token.important{font-weight:700}.token.italic{font-style:italic}.token.entity{cursor:help}</style>
+<style>.pseudoBefore[data-v-d71a6df8]:before{content:"•";font-family:Arial,serif}</style>
+<style>.layout-content-with-divider[data-v-d25e4409]{border-bottom:1px solid rgba(55,53,47,.09);margin-bottom:8px}</style>
+<style>ol{margin-left:10px}</style>
+<style>/*! tailwindcss v3.4.0 | MIT License | https://tailwindcss.com*/*,:after,:before{border:0 solid #e5e7eb;box-sizing:border-box}:after,:before{--tw-content:""}:host,html{line-height:1.5;-webkit-text-size-adjust:100%;font-family:ui-sans-serif,system-ui,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji;font-feature-settings:normal;font-variation-settings:normal;-moz-tab-size:4;-o-tab-size:4;tab-size:4;-webkit-tap-highlight-color:transparent}body{line-height:inherit;margin:0}hr{border-top-width:1px;color:inherit;height:0}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,Liberation Mono,Courier New,monospace;font-feature-settings:normal;font-size:1em;font-variation-settings:normal}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{border-collapse:collapse;border-color:inherit;text-indent:0}button,input,optgroup,select,textarea{color:inherit;font-family:inherit;font-feature-settings:inherit;font-size:100%;font-variation-settings:inherit;font-weight:inherit;line-height:inherit;margin:0;padding:0}button,select{text-transform:none}[type=button],[type=reset],[type=submit],button{-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0}fieldset,legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::-moz-placeholder,textarea::-moz-placeholder{color:#9ca3af;opacity:1}input::placeholder,textarea::placeholder{color:#9ca3af;opacity:1}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{height:auto;max-width:100%}[hidden]{display:none}*,:after,:before{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgba(59,130,246,.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgba(59,130,246,.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: }.visible{visibility:visible}.relative{position:relative}.mx-auto{margin-left:auto;margin-right:auto}.mt-8{margin-top:2rem}.block{display:block}.flex{display:flex}.hidden{display:none}.max-w-4xl{max-width:56rem}.flex-shrink{flex-shrink:1}.flex-grow{flex-grow:1}.list-none{list-style-type:none}.flex-col{flex-direction:column}.flex-wrap{flex-wrap:wrap}.items-center{align-items:center}.justify-between{justify-content:space-between}.gap-2{gap:.5rem}.gap-3{gap:.75rem}.truncate{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.rounded-md{border-radius:.375rem}.border-b{border-bottom-width:1px}.border-gray-200{--tw-border-opacity:1;border-color:#e5e7eb;border-color:rgb(229 231 235/var(--tw-border-opacity))}.bg-blue-300{--tw-bg-opacity:1;background-color:#93c5fd;background-color:rgb(147 197 253/var(--tw-bg-opacity))}.bg-blue-500{--tw-bg-opacity:1;background-color:#3b82f6;background-color:rgb(59 130 246/var(--tw-bg-opacity))}.p-1{padding:.25rem}.p-2{padding:.5rem}.px-2{padding-left:.5rem;padding-right:.5rem}.py-2{padding-bottom:.5rem;padding-top:.5rem}.py-4{padding-top:1rem}.pb-4,.py-4{padding-bottom:1rem}.text-2xl{font-size:1.5rem;line-height:2rem}.text-sm{font-size:.875rem;line-height:1.25rem}.font-light{font-weight:300}.font-semibold{font-weight:600}.italic{font-style:italic}.text-black{--tw-text-opacity:1;color:#000;color:rgb(0 0 0/var(--tw-text-opacity))}.text-gray-600{--tw-text-opacity:1;color:#4b5563;color:rgb(75 85 99/var(--tw-text-opacity))}.text-white{--tw-text-opacity:1;color:#fff;color:rgb(255 255 255/var(--tw-text-opacity))}.underline{text-decoration-line:underline}.transition{transition-duration:.15s;transition-property:color,background-color,border-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,-webkit-backdrop-filter;transition-property:color,background-color,border-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,backdrop-filter;transition-property:color,background-color,border-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,backdrop-filter,-webkit-backdrop-filter;transition-timing-function:cubic-bezier(.4,0,.2,1)}.ease-in{transition-timing-function:cubic-bezier(.4,0,1,1)}.layout{margin:0 auto;max-width:900px}.layout-content{padding:0 24px}@media only screen and (min-width:768px){.layout-content{padding:0 96px}}.notion-font-color-blue{color:#337ea9;fill:#337ea9}.notion-font-color-red{color:#d44c47;fill:#d44c47}.notion-font-color-purple{color:#9065b0;fill:#9065b0}.notion-font-color-green{color:#448361;fill:#448361}.notion-font-color-yellow_background{background:#fbf3db}.pseudoBefore:before{background:var(--pseudoBefore--background);border:var(--pseudoBefore--border);color:var(--pseudoBefore--color);content:var(--pseudoBefore--content);display:var(--pseudoBefore--display)!important;font-family:var(--pseudoBefore--fontFamily);height:var(--pseudoBefore--height);width:var(--pseudoBefore--width)}@media (min-width:768px){.md\:flex-row{flex-direction:row}}.\[\&\.router-link-exact-active\]\:bg-blue-500.router-link-exact-active{--tw-bg-opacity:1;background-color:#3b82f6;background-color:rgb(59 130 246/var(--tw-bg-opacity))}.\[\&\.router-link-exact-active\]\:text-white.router-link-exact-active{--tw-text-opacity:1;color:#fff;color:rgb(255 255 255/var(--tw-text-opacity))}</style>
+<link rel="modulepreload" as="script" crossorigin href="/blog/_nuxt/entry.b-zjN5sI.js">
+<link rel="modulepreload" as="script" crossorigin href="/blog/_nuxt/PostViewLayout.GxyR9Ifl.js">
+<link rel="modulepreload" as="script" crossorigin href="/blog/_nuxt/Header.d2QtGMuZ.js">
+<link rel="modulepreload" as="script" crossorigin href="/blog/_nuxt/nuxt-link.RZBhyM4d.js">
+<link rel="modulepreload" as="script" crossorigin href="/blog/_nuxt/_slug_.CArDkINk.js">
+<link rel="modulepreload" as="script" crossorigin href="/blog/_nuxt/ContentDoc.0c91tAUH.js">
+<link rel="modulepreload" as="script" crossorigin href="/blog/_nuxt/vue.f36acd1f.7VDWUYoH.js">
+<link rel="modulepreload" as="script" crossorigin href="/blog/_nuxt/ContentRenderer.Vsq0QZag.js">
+<link rel="modulepreload" as="script" crossorigin href="/blog/_nuxt/ContentRendererMarkdown.vue.tfuzmCmU.js">
+<link rel="modulepreload" as="script" crossorigin href="/blog/_nuxt/index.Wme0U9j4.js">
+<link rel="modulepreload" as="script" crossorigin href="/blog/_nuxt/preview.dkI6r5Gp.js">
+<link rel="modulepreload" as="script" crossorigin href="/blog/_nuxt/ContentQuery.0pvsM8r1.js">
+<link rel="modulepreload" as="script" crossorigin href="/blog/_nuxt/asyncData.OJMaApGy.js">
+<link rel="modulepreload" as="script" crossorigin href="/blog/_nuxt/query.IbWArA6i.js">
+<link rel="modulepreload" as="script" crossorigin href="/blog/_nuxt/_commonjsHelpers.5-cIlDoe.js">
+<link rel="prefetch" as="script" crossorigin href="/blog/_nuxt/PostListLayout.LyH4YCqf.js">
+<link rel="prefetch" as="script" crossorigin href="/blog/_nuxt/Tags.LLxi-Dsp.js">
+<link rel="prefetch" as="script" crossorigin href="/blog/_nuxt/error-404.fKqIycP4.js">
+<link rel="prefetch" as="script" crossorigin href="/blog/_nuxt/error-500.y04LtdTk.js">
+<script type="module" src="/blog/_nuxt/entry.b-zjN5sI.js" crossorigin></script></head>
+<body ><div id="__nuxt"><!--[--><header class="py-4 border-b border-gray-200"><div class="layout mx-auto flex justify-between items-center"><div class="layout-content"><a href="/blog/" class="text-2xl font-semibold">seungyoon</a></div></div></header><div class="layout"><div class="layout-content"><!--[--><!--[--><!--[--><article><!--[--><div style="width:100%;display:flex;flex-direction:column;align-items:center;flex-shrink:0;flex-grow:0;" data-v-d25e4409><div style="max-width:100%;padding-left:calc(0px + env(safe-area-inset-left));width:100%;" data-v-d25e4409><div style="user-select:none;--pseudoSelection--background:transparent;pointer-events:none;" data-v-d25e4409><div style="display:flex;justify-content:flex-start;flex-wrap:wrap;margin-top:40px;margin-bottom:4px;margin-left:-1px;color:rgba(55, 53, 47, 0.5);font-family:ui-sans-serif, -apple-system, BlinkMacSystemFont, &#39;Segoe UI&#39;, Helvetica, &#39;Apple Color Emoji&#39;, Arial, sans-serif, &#39;Segoe UI Emoji&#39;, &#39;Segoe UI Symbol&#39;;pointer-events:auto;" data-v-d25e4409></div></div><div style="padding-right:calc(0px + env(safe-area-inset-right));" data-v-d25e4409><div data-v-d25e4409><div style="color:rgb(55, 53, 47);font-weight:700;line-height:1.2;font-size:40px;font-family:ui-sans-serif, -apple-system, BlinkMacSystemFont, &#39;Segoe UI&#39;, Helvetica, &#39;Apple Color Emoji&#39;, Arial, sans-serif, &#39;Segoe UI Emoji&#39;, &#39;Segoe UI Symbol&#39;;cursor:text;display:flex;align-items:center;" data-v-d25e4409><h1 style="max-width:100%;width:100%;white-space:pre-wrap;word-break:break-word;caret-color:rgb(55, 53, 47);padding:3px 2px;font-size:1em;font-weight:inherit;margin:0px;" data-v-d25e4409><span style="text-decoration:none;color:inherit;" data-v-d25e4409>자바스크립트 - 19. 실행 컨텍스트</span></h1></div><div style="margin-left:4px;" data-v-d25e4409></div></div></div></div></div><div class="layout-content-with-divider" data-v-d25e4409><div style="font-size:14px;color:rgba(55, 53, 47, 0.65);" data-v-d25e4409><div style="padding:8px 0px;" data-v-d25e4409><div style="padding-top:8px;" data-v-d25e4409><div style="padding-bottom:8px;" data-v-d25e4409><div class="flex items-center gap-3 p-2" data-v-d25e4409><span data-v-d25e4409>Tags:</span><div class="flex flex-wrap gap-2" data-v-d25e4409><!--[--><a href="/blog/tags/javascript" class="text-sm flex items-center p-1 px-2 rounded-md truncate text-white bg-blue-500" data-v-d25e4409>javascript</a><!--]--></div></div><div class="flex items-center gap-3 p-2" data-v-d25e4409><span data-v-d25e4409>Date:</span><span class="text-black" data-v-d25e4409>2024-02-28</span></div></div></div></div></div></div><!--]--><!--[--><!--[--><!----><!----><!----><div style="width:100%;margin-top:2px;margin-bottom:1px;"><div style="color:inherit;fill:inherit;"><div style="display:flex;"><div style="max-width:100%;width:100%;white-space:pre-wrap;word-break:break-word;caret-color:rgb(55, 53, 47);padding:3px 2px;"><span>실행 컨텍스트는 자바스크립트의 동작 원리를 담고 있는 핵심 개념</span></div></div></div></div><!----><!----><!----><!----><!----><!----><!----><!--]--><!--[--><div style="width:100%;max-width:1278px;margin-top:2em;margin-bottom:4px;"><div style="display:flex;width:100%;color:inherit;fill:inherit;"><h2 style="max-width:100%;width:100%;white-space:pre-wrap;word-break:break-word;caret-color:rgb(55, 53, 47);padding:3px 2px;font-family:ui-sans-serif, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Helvetica, &quot;Apple Color Emoji&quot;, Arial, sans-serif, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;;font-weight:600;font-size:1.875em;line-height:1.3;margin:0px;"><!--[--><!--[-->소스코드 타입<!--]--><!--]--></h2><div style="position:relative;left:0px;"></div></div></div><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!--]--><!--[--><!----><!----><!----><div style="width:100%;margin-top:2px;margin-bottom:1px;"><div style="color:inherit;fill:inherit;"><div style="display:flex;"><div style="max-width:100%;width:100%;white-space:pre-wrap;word-break:break-word;caret-color:rgb(55, 53, 47);padding:3px 2px;"><span>4가지 타입으로 구분</span></div></div></div></div><!----><!----><!----><!----><!----><!----><!----><!--]--><!--[--><!----><!----><!----><div style="width:100%;margin-top:2px;margin-bottom:1px;"><div style="color:inherit;fill:inherit;"><div style="display:flex;"><div style="max-width:100%;width:100%;white-space:pre-wrap;word-break:break-word;caret-color:rgb(55, 53, 47);padding:3px 2px;"><span>전역 코드, 함수 코드, eval 코드, 모듈 코드</span></div></div></div></div><!----><!----><!----><!----><!----><!----><!----><!--]--><!--[--><!----><!----><!----><div style="width:100%;margin-top:2px;margin-bottom:1px;"><div style="color:inherit;fill:inherit;"><div style="display:flex;"><div style="max-width:100%;width:100%;white-space:pre-wrap;word-break:break-word;caret-color:rgb(55, 53, 47);padding:3px 2px;"><span> </span></div></div></div></div><!----><!----><!----><!----><!----><!----><!----><!--]--><!--[--><!----><!----><!----><div style="width:100%;margin-top:2px;margin-bottom:1px;"><div style="color:inherit;fill:inherit;"><div style="display:flex;"><div style="max-width:100%;width:100%;white-space:pre-wrap;word-break:break-word;caret-color:rgb(55, 53, 47);padding:3px 2px;"><span>여기서 주의깊게 볼것은 전역 코드와 함수 코드, 전역 코드는 전역 실행 컨텍스트를 생성하고 함수 코드는 함수 실행 컨텍스트를 생성한다.</span></div></div></div></div><!----><!----><!----><!----><!----><!----><!----><!--]--><!--[--><div style="width:100%;max-width:1278px;margin-top:2em;margin-bottom:4px;"><div style="display:flex;width:100%;color:inherit;fill:inherit;"><h2 style="max-width:100%;width:100%;white-space:pre-wrap;word-break:break-word;caret-color:rgb(55, 53, 47);padding:3px 2px;font-family:ui-sans-serif, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Helvetica, &quot;Apple Color Emoji&quot;, Arial, sans-serif, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;;font-weight:600;font-size:1.875em;line-height:1.3;margin:0px;"><!--[--><!--[-->소스코드의 평가와 실행<!--]--><!--]--></h2><div style="position:relative;left:0px;"></div></div></div><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!--]--><!--[--><!----><!----><!----><div style="width:100%;margin-top:2px;margin-bottom:1px;"><div style="color:inherit;fill:inherit;"><div style="display:flex;"><div style="max-width:100%;width:100%;white-space:pre-wrap;word-break:break-word;caret-color:rgb(55, 53, 47);padding:3px 2px;"><span>모든 소스코드는 실행에 앞서 평가 과정을 거치며 코드를 실행하기 위한 준비를 한다.</span></div></div></div></div><!----><!----><!----><!----><!----><!----><!----><!--]--><!--[--><!----><!----><!----><div style="width:100%;margin-top:2px;margin-bottom:1px;"><div style="color:inherit;fill:inherit;"><div style="display:flex;"><div style="max-width:100%;width:100%;white-space:pre-wrap;word-break:break-word;caret-color:rgb(55, 53, 47);padding:3px 2px;"><span>소스코드 평가 과정에서 <span style="font-family:'SFMono-Regular', Menlo, Consolas, 'PT Mono', 'Liberation Mono', Courier, monospace;line-height:normal;background:rgba(135,131,120,.15);color:#EB5757;border-radius:4px;font-size:85%;padding:0.2em 0.4em">실행 컨텍스트를 생성</span>하고 변수나 함수 식별자를 키로 실행 컨텍스트가 관리하는 <span style="font-family:'SFMono-Regular', Menlo, Consolas, 'PT Mono', 'Liberation Mono', Courier, monospace;line-height:normal;background:rgba(135,131,120,.15);color:#EB5757;border-radius:4px;font-size:85%;padding:0.2em 0.4em">스코프(렉시컬 환경의 환경 레코드)</span>에 등록한다.</span></div></div></div></div><!----><!----><!----><!----><!----><!----><!----><!--]--><!--[--><!----><!----><!----><div style="width:100%;margin-top:2px;margin-bottom:1px;"><div style="color:inherit;fill:inherit;"><div style="display:flex;"><div style="max-width:100%;width:100%;white-space:pre-wrap;word-break:break-word;caret-color:rgb(55, 53, 47);padding:3px 2px;"><span>평가 과정이 끝나면 소스코드가 순차적으로 실행. 즉 런타임이 시작된다. 이때 소스코드 실행(변수에 값을 할당 등)시 실행 컨텍스트가 관리하는 스코프에서 검색해서 취득하고 할당한다.</span></div></div></div></div><!----><!----><!----><!----><!----><!----><!----><!--]--><!--[--><!----><!----><!----><div style="width:100%;margin-top:2px;margin-bottom:1px;"><div style="color:inherit;fill:inherit;"><div style="display:flex;"><div style="max-width:100%;width:100%;white-space:pre-wrap;word-break:break-word;caret-color:rgb(55, 53, 47);padding:3px 2px;"><span> </span></div></div></div></div><!----><!----><!----><!----><!----><!----><!----><!--]--><!--[--><!----><!----><!----><div style="width:100%;margin-top:2px;margin-bottom:1px;"><div style="color:inherit;fill:inherit;"><div style="display:flex;"><div style="max-width:100%;width:100%;white-space:pre-wrap;word-break:break-word;caret-color:rgb(55, 53, 47);padding:3px 2px;"><span>그러니까 쉽게 자바스크립트 실행하면 소스코드를 한줄한줄 실행하기에 앞서 소스코드를 먼저 평가해 이때 실행컨텍스트 생성하고 여기 안에 렉시컬 환경이 구성되고, 이 렉시컬 환경에 변수나 함수 식별자 등록을 해. 그다음에 소스코드 실행 단계(소스코드 한줄한줄 실행, 즉 런타임)에서 실행컨텍스트 가져와서 렉시컬환경 안에 식별자 검색한다음 값을 할당해</span></div></div></div></div><!----><!----><!----><!----><!----><!----><!----><!--]--><!--[--><!----><!----><!----><div style="width:100%;margin-top:2px;margin-bottom:1px;"><div style="color:inherit;fill:inherit;"><div style="display:flex;"><div style="max-width:100%;width:100%;white-space:pre-wrap;word-break:break-word;caret-color:rgb(55, 53, 47);padding:3px 2px;"><span> </span></div></div></div></div><!----><!----><!----><!----><!----><!----><!----><!--]--><!--[--><!----><!----><!----><!----><!----><!----><!----><div style="width:100%;margin-top:4px;margin-bottom:4px;"><div style="flex-grow:1;flex-shrink:1;text-align:left;font-family:SFMono-Regular, Menlo, Consolas, &#39;PT Mono&#39;, &#39;Liberation Mono&#39;, Courier, monospace;font-size:85%;tab-size:2;min-height:1em;color:rgb(55, 53, 47);white-space:pre-wrap;word-break:break-all;min-width:0px;"><pre><code class="language-javascript">var x;
+x = 1;
+</code></pre></div></div><!----><!----><!----><!--]--><!--[--><!----><!----><!----><div style="width:100%;margin-top:2px;margin-bottom:1px;"><div style="color:inherit;fill:inherit;"><div style="display:flex;"><div style="max-width:100%;width:100%;white-space:pre-wrap;word-break:break-word;caret-color:rgb(55, 53, 47);padding:3px 2px;"><span>이런 코드가 있을때</span></div></div></div></div><!----><!----><!----><!----><!----><!----><!----><!--]--><!--[--><!----><!----><!----><div style="width:100%;margin-top:2px;margin-bottom:1px;"><div style="color:inherit;fill:inherit;"><div style="display:flex;"><div style="max-width:100%;width:100%;white-space:pre-wrap;word-break:break-word;caret-color:rgb(55, 53, 47);padding:3px 2px;"><span>자바스크립트는 평가단계에서 전역 실행컨텍스트 생성하고 여기에 렉시컬 환경이 구성이 돼, 그리고 렉시컬 환경에 x 식별자 등록하고 undeinfed 할당(var 변수라서), 실행단계에서 전역 실행컨텍스트 안에 렉시컬 환경에 x 있는지 찾아서 x에 1 할당</span></div></div></div></div><!----><!----><!----><!----><!----><!----><!----><!--]--><!--[--><div style="width:100%;max-width:1278px;margin-top:2em;margin-bottom:4px;"><div style="display:flex;width:100%;color:inherit;fill:inherit;"><h2 style="max-width:100%;width:100%;white-space:pre-wrap;word-break:break-word;caret-color:rgb(55, 53, 47);padding:3px 2px;font-family:ui-sans-serif, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Helvetica, &quot;Apple Color Emoji&quot;, Arial, sans-serif, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;;font-weight:600;font-size:1.875em;line-height:1.3;margin:0px;"><!--[--><!--[-->실행 컨텍스트의 역할<!--]--><!--]--></h2><div style="position:relative;left:0px;"></div></div></div><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!--]--><!--[--><!----><!----><!----><div style="width:100%;margin-top:2px;margin-bottom:1px;"><div style="color:inherit;fill:inherit;"><div style="display:flex;"><div style="max-width:100%;width:100%;white-space:pre-wrap;word-break:break-word;caret-color:rgb(55, 53, 47);padding:3px 2px;"><span>다음 코드는 자바스크립트 엔진이 어떻게 평가하고 실행할까?</span></div></div></div></div><!----><!----><!----><!----><!----><!----><!----><!--]--><!--[--><!----><!----><!----><!----><!----><!----><!----><div style="width:100%;margin-top:4px;margin-bottom:4px;"><div style="flex-grow:1;flex-shrink:1;text-align:left;font-family:SFMono-Regular, Menlo, Consolas, &#39;PT Mono&#39;, &#39;Liberation Mono&#39;, Courier, monospace;font-size:85%;tab-size:2;min-height:1em;color:rgb(55, 53, 47);white-space:pre-wrap;word-break:break-all;min-width:0px;"><pre><code class="language-javascript">const x = 1;
+const y = 2;
+
+function foo(a) {
+    const x = 10;
+    const y = 20;
+    
+    console.log(a + x + y);
+}
+
+foo(100);
+
+console.log(x + y);
+</code></pre></div></div><!----><!----><!----><!--]--><!--[--><!----><!----><!----><!----><!----><!----><!----><!----><!----><div><div style="width: 100%;margin-top: 1px; margin-bottom: 1px;">
+                            <div style="display: flex; align-items: flex-start; width: 100%; padding-left: 2px; color: inherit; fill: inherit;">
+                                <div style="user-select: none; --pseudoSelection--background: transparent; margin-right: 2px; width: unset; display: flex; align-items: center; justify-content: center; flex-grow: 0; flex-shrink: 0; min-height: calc(1.5em + 6px);">
+                                    <span style="text-align: center; white-space: nowrap; width:24px">1. </span>
+                                </div>
+                                <div style="flex: 1 1 0px; min-width: 1px; display: flex; flex-direction: column;">
+                                    <div style="display: flex">
+                                        <div style="max-width: 100%; width: 100%; white-space: pre-wrap; word-break: break-word; caret-color: rgb(55, 53, 47); padding: 3px 2px; text-align: left;">전역 코드 평가
+</div>
+                                    </div><div style="width: 100%;margin-top: 1px; margin-bottom: 1px;">
+                            <div style="display: flex; align-items: flex-start; width: 100%; padding-left: 2px; color: inherit; fill: inherit;">
+                                <div style="user-select: none; --pseudoSelection--background: transparent; margin-right: 2px; width: unset; display: flex; align-items: center; justify-content: center; flex-grow: 0; flex-shrink: 0; min-height: calc(1.5em + 6px);">
+                                    <span style="text-align: center; white-space: nowrap; width:24px">a. </span>
+                                </div>
+                                <div style="flex: 1 1 0px; min-width: 1px; display: flex; flex-direction: column;">
+                                    <div style="display: flex">
+                                        <div style="max-width: 100%; width: 100%; white-space: pre-wrap; word-break: break-word; caret-color: rgb(55, 53, 47); padding: 3px 2px; text-align: left;">선언문만 먼저 실행</div>
+                                    </div></div>
+                            </div>
+                        </div><div style="width: 100%;margin-top: 1px; margin-bottom: 1px;">
+                            <div style="display: flex; align-items: flex-start; width: 100%; padding-left: 2px; color: inherit; fill: inherit;">
+                                <div style="user-select: none; --pseudoSelection--background: transparent; margin-right: 2px; width: unset; display: flex; align-items: center; justify-content: center; flex-grow: 0; flex-shrink: 0; min-height: calc(1.5em + 6px);">
+                                    <span style="text-align: center; white-space: nowrap; width:24px">b. </span>
+                                </div>
+                                <div style="flex: 1 1 0px; min-width: 1px; display: flex; flex-direction: column;">
+                                    <div style="display: flex">
+                                        <div style="max-width: 100%; width: 100%; white-space: pre-wrap; word-break: break-word; caret-color: rgb(55, 53, 47); padding: 3px 2px; text-align: left;">전역 변수(const x, y), 전역 함수(foo)가 실행 컨텍스트가 관리하는 전역 스코프에 등록 됨</div>
+                                    </div></div>
+                            </div>
+                        </div></div>
+                            </div>
+                        </div><div style="width: 100%;margin-top: 1px; margin-bottom: 1px;">
+                            <div style="display: flex; align-items: flex-start; width: 100%; padding-left: 2px; color: inherit; fill: inherit;">
+                                <div style="user-select: none; --pseudoSelection--background: transparent; margin-right: 2px; width: unset; display: flex; align-items: center; justify-content: center; flex-grow: 0; flex-shrink: 0; min-height: calc(1.5em + 6px);">
+                                    <span style="text-align: center; white-space: nowrap; width:24px">2. </span>
+                                </div>
+                                <div style="flex: 1 1 0px; min-width: 1px; display: flex; flex-direction: column;">
+                                    <div style="display: flex">
+                                        <div style="max-width: 100%; width: 100%; white-space: pre-wrap; word-break: break-word; caret-color: rgb(55, 53, 47); padding: 3px 2px; text-align: left;">전역 코드 실행
+</div>
+                                    </div><div style="width: 100%;margin-top: 1px; margin-bottom: 1px;">
+                            <div style="display: flex; align-items: flex-start; width: 100%; padding-left: 2px; color: inherit; fill: inherit;">
+                                <div style="user-select: none; --pseudoSelection--background: transparent; margin-right: 2px; width: unset; display: flex; align-items: center; justify-content: center; flex-grow: 0; flex-shrink: 0; min-height: calc(1.5em + 6px);">
+                                    <span style="text-align: center; white-space: nowrap; width:24px">a. </span>
+                                </div>
+                                <div style="flex: 1 1 0px; min-width: 1px; display: flex; flex-direction: column;">
+                                    <div style="display: flex">
+                                        <div style="max-width: 100%; width: 100%; white-space: pre-wrap; word-break: break-word; caret-color: rgb(55, 53, 47); padding: 3px 2px; text-align: left;">전역 코드가 순차적으로 실행, 이때 전역 변수(const x, y)에 값이 할당되고 함수가 호출(foo(100))됨</div>
+                                    </div></div>
+                            </div>
+                        </div><div style="width: 100%;margin-top: 1px; margin-bottom: 1px;">
+                            <div style="display: flex; align-items: flex-start; width: 100%; padding-left: 2px; color: inherit; fill: inherit;">
+                                <div style="user-select: none; --pseudoSelection--background: transparent; margin-right: 2px; width: unset; display: flex; align-items: center; justify-content: center; flex-grow: 0; flex-shrink: 0; min-height: calc(1.5em + 6px);">
+                                    <span style="text-align: center; white-space: nowrap; width:24px">b. </span>
+                                </div>
+                                <div style="flex: 1 1 0px; min-width: 1px; display: flex; flex-direction: column;">
+                                    <div style="display: flex">
+                                        <div style="max-width: 100%; width: 100%; white-space: pre-wrap; word-break: break-word; caret-color: rgb(55, 53, 47); padding: 3px 2px; text-align: left;">순차적으로 실행되던 전역 코드의 실행을 일시 중단, 함수 내부로 진입</div>
+                                    </div></div>
+                            </div>
+                        </div></div>
+                            </div>
+                        </div><div style="width: 100%;margin-top: 1px; margin-bottom: 1px;">
+                            <div style="display: flex; align-items: flex-start; width: 100%; padding-left: 2px; color: inherit; fill: inherit;">
+                                <div style="user-select: none; --pseudoSelection--background: transparent; margin-right: 2px; width: unset; display: flex; align-items: center; justify-content: center; flex-grow: 0; flex-shrink: 0; min-height: calc(1.5em + 6px);">
+                                    <span style="text-align: center; white-space: nowrap; width:24px">3. </span>
+                                </div>
+                                <div style="flex: 1 1 0px; min-width: 1px; display: flex; flex-direction: column;">
+                                    <div style="display: flex">
+                                        <div style="max-width: 100%; width: 100%; white-space: pre-wrap; word-break: break-word; caret-color: rgb(55, 53, 47); padding: 3px 2px; text-align: left;">함수 코드 평가
+</div>
+                                    </div><div style="width: 100%;margin-top: 1px; margin-bottom: 1px;">
+                            <div style="display: flex; align-items: flex-start; width: 100%; padding-left: 2px; color: inherit; fill: inherit;">
+                                <div style="user-select: none; --pseudoSelection--background: transparent; margin-right: 2px; width: unset; display: flex; align-items: center; justify-content: center; flex-grow: 0; flex-shrink: 0; min-height: calc(1.5em + 6px);">
+                                    <span style="text-align: center; white-space: nowrap; width:24px">a. </span>
+                                </div>
+                                <div style="flex: 1 1 0px; min-width: 1px; display: flex; flex-direction: column;">
+                                    <div style="display: flex">
+                                        <div style="max-width: 100%; width: 100%; white-space: pre-wrap; word-break: break-word; caret-color: rgb(55, 53, 47); padding: 3px 2px; text-align: left;">매개변수와 지역 선언문이 먼저 실행되고, 실행 컨텍스트가 관리하는 지역 스코프에 등록된다.</div>
+                                    </div></div>
+                            </div>
+                        </div><div style="width: 100%;margin-top: 1px; margin-bottom: 1px;">
+                            <div style="display: flex; align-items: flex-start; width: 100%; padding-left: 2px; color: inherit; fill: inherit;">
+                                <div style="user-select: none; --pseudoSelection--background: transparent; margin-right: 2px; width: unset; display: flex; align-items: center; justify-content: center; flex-grow: 0; flex-shrink: 0; min-height: calc(1.5em + 6px);">
+                                    <span style="text-align: center; white-space: nowrap; width:24px">b. </span>
+                                </div>
+                                <div style="flex: 1 1 0px; min-width: 1px; display: flex; flex-direction: column;">
+                                    <div style="display: flex">
+                                        <div style="max-width: 100%; width: 100%; white-space: pre-wrap; word-break: break-word; caret-color: rgb(55, 53, 47); padding: 3px 2px; text-align: left;">함수 내부에서 지역 변수처럼 사용할 수 있는 arguments 객체가 생성되어 지역 스코프에 등록되고 this 바인딩도 결정된다.</div>
+                                    </div></div>
+                            </div>
+                        </div></div>
+                            </div>
+                        </div><div style="width: 100%;margin-top: 1px; margin-bottom: 1px;">
+                            <div style="display: flex; align-items: flex-start; width: 100%; padding-left: 2px; color: inherit; fill: inherit;">
+                                <div style="user-select: none; --pseudoSelection--background: transparent; margin-right: 2px; width: unset; display: flex; align-items: center; justify-content: center; flex-grow: 0; flex-shrink: 0; min-height: calc(1.5em + 6px);">
+                                    <span style="text-align: center; white-space: nowrap; width:24px">4. </span>
+                                </div>
+                                <div style="flex: 1 1 0px; min-width: 1px; display: flex; flex-direction: column;">
+                                    <div style="display: flex">
+                                        <div style="max-width: 100%; width: 100%; white-space: pre-wrap; word-break: break-word; caret-color: rgb(55, 53, 47); padding: 3px 2px; text-align: left;">함수 코드 실행
+</div>
+                                    </div><div style="width: 100%;margin-top: 1px; margin-bottom: 1px;">
+                            <div style="display: flex; align-items: flex-start; width: 100%; padding-left: 2px; color: inherit; fill: inherit;">
+                                <div style="user-select: none; --pseudoSelection--background: transparent; margin-right: 2px; width: unset; display: flex; align-items: center; justify-content: center; flex-grow: 0; flex-shrink: 0; min-height: calc(1.5em + 6px);">
+                                    <span style="text-align: center; white-space: nowrap; width:24px">a. </span>
+                                </div>
+                                <div style="flex: 1 1 0px; min-width: 1px; display: flex; flex-direction: column;">
+                                    <div style="display: flex">
+                                        <div style="max-width: 100%; width: 100%; white-space: pre-wrap; word-break: break-word; caret-color: rgb(55, 53, 47); padding: 3px 2px; text-align: left;">함수 코드가 순차적으로 실행되기 시작, 이때 매개변수와 지역 변수에 값이 할당되고 console.log 메서드가 호출된다.</div>
+                                    </div></div>
+                            </div>
+                        </div><div style="width: 100%;margin-top: 1px; margin-bottom: 1px;">
+                            <div style="display: flex; align-items: flex-start; width: 100%; padding-left: 2px; color: inherit; fill: inherit;">
+                                <div style="user-select: none; --pseudoSelection--background: transparent; margin-right: 2px; width: unset; display: flex; align-items: center; justify-content: center; flex-grow: 0; flex-shrink: 0; min-height: calc(1.5em + 6px);">
+                                    <span style="text-align: center; white-space: nowrap; width:24px">b. </span>
+                                </div>
+                                <div style="flex: 1 1 0px; min-width: 1px; display: flex; flex-direction: column;">
+                                    <div style="display: flex">
+                                        <div style="max-width: 100%; width: 100%; white-space: pre-wrap; word-break: break-word; caret-color: rgb(55, 53, 47); padding: 3px 2px; text-align: left;">console.log 메서드를 호출하기 위해 먼저 식별자인 console을 스코프 체인을 통해 검색한다.</div>
+                                    </div></div>
+                            </div>
+                        </div><div style="width: 100%;margin-top: 1px; margin-bottom: 1px;">
+                            <div style="display: flex; align-items: flex-start; width: 100%; padding-left: 2px; color: inherit; fill: inherit;">
+                                <div style="user-select: none; --pseudoSelection--background: transparent; margin-right: 2px; width: unset; display: flex; align-items: center; justify-content: center; flex-grow: 0; flex-shrink: 0; min-height: calc(1.5em + 6px);">
+                                    <span style="text-align: center; white-space: nowrap; width:24px">c. </span>
+                                </div>
+                                <div style="flex: 1 1 0px; min-width: 1px; display: flex; flex-direction: column;">
+                                    <div style="display: flex">
+                                        <div style="max-width: 100%; width: 100%; white-space: pre-wrap; word-break: break-word; caret-color: rgb(55, 53, 47); padding: 3px 2px; text-align: left;">a,x,y 식별자는 스코프 체인을 통해 검색한다.</div>
+                                    </div></div>
+                            </div>
+                        </div><div style="width: 100%;margin-top: 1px; margin-bottom: 1px;">
+                            <div style="display: flex; align-items: flex-start; width: 100%; padding-left: 2px; color: inherit; fill: inherit;">
+                                <div style="user-select: none; --pseudoSelection--background: transparent; margin-right: 2px; width: unset; display: flex; align-items: center; justify-content: center; flex-grow: 0; flex-shrink: 0; min-height: calc(1.5em + 6px);">
+                                    <span style="text-align: center; white-space: nowrap; width:24px">d. </span>
+                                </div>
+                                <div style="flex: 1 1 0px; min-width: 1px; display: flex; flex-direction: column;">
+                                    <div style="display: flex">
+                                        <div style="max-width: 100%; width: 100%; white-space: pre-wrap; word-break: break-word; caret-color: rgb(55, 53, 47); padding: 3px 2px; text-align: left;">console.log 실행이 종료되면 함수 코드 실행 과정이 종료되고 함수 호출 이전으로 되돌아가 전역 코드 실행을 계속한다.</div>
+                                    </div></div>
+                            </div>
+                        </div></div>
+                            </div>
+                        </div></div><!----><!--]--><!--[--><!----><!----><!----><div style="width:100%;margin-top:2px;margin-bottom:1px;"><div style="color:inherit;fill:inherit;"><div style="display:flex;"><div style="max-width:100%;width:100%;white-space:pre-wrap;word-break:break-word;caret-color:rgb(55, 53, 47);padding:3px 2px;"><span> </span></div></div></div></div><!----><!----><!----><!----><!----><!----><!----><!--]--><!--[--><!----><!----><!----><div style="width:100%;margin-top:2px;margin-bottom:1px;"><div style="color:inherit;fill:inherit;"><div style="display:flex;"><div style="max-width:100%;width:100%;white-space:pre-wrap;word-break:break-word;caret-color:rgb(55, 53, 47);padding:3px 2px;"><span>함수 호출이 종료되면 함수 호출 이전으로 되돌아가기 위해 현재 실행중인 코드와 이전에 실행하던 코드를 구분하여 관리해야 한다. 이처럼 코드가 실행되려면 다음과 같이 스코프, 식별자, 코드 실행 순서 등의 관리가 필요하다.</span></div></div></div></div><!----><!----><!----><!----><!----><!----><!----><!--]--><!--[--><!----><!----><!----><!----><!----><!----><!----><!----><!----><div><div style="width: 100%;margin-top: 1px; margin-bottom: 1px;">
+                            <div style="display: flex; align-items: flex-start; width: 100%; padding-left: 2px; color: inherit; fill: inherit;">
+                                <div style="user-select: none; --pseudoSelection--background: transparent; margin-right: 2px; width: unset; display: flex; align-items: center; justify-content: center; flex-grow: 0; flex-shrink: 0; min-height: calc(1.5em + 6px);">
+                                    <span style="text-align: center; white-space: nowrap; width:24px">1. </span>
+                                </div>
+                                <div style="flex: 1 1 0px; min-width: 1px; display: flex; flex-direction: column;">
+                                    <div style="display: flex">
+                                        <div style="max-width: 100%; width: 100%; white-space: pre-wrap; word-break: break-word; caret-color: rgb(55, 53, 47); padding: 3px 2px; text-align: left;">선언에 의해 생성된 모든 식별자(변수, 함수, 클래스 등)를 스코프를 구분하여 등록하고 상태 변화(식별자에 바인딩된 값의 변화)를 지속적으로 관리할 수 있어야 한다.</div>
+                                    </div></div>
+                            </div>
+                        </div><div style="width: 100%;margin-top: 1px; margin-bottom: 1px;">
+                            <div style="display: flex; align-items: flex-start; width: 100%; padding-left: 2px; color: inherit; fill: inherit;">
+                                <div style="user-select: none; --pseudoSelection--background: transparent; margin-right: 2px; width: unset; display: flex; align-items: center; justify-content: center; flex-grow: 0; flex-shrink: 0; min-height: calc(1.5em + 6px);">
+                                    <span style="text-align: center; white-space: nowrap; width:24px">2. </span>
+                                </div>
+                                <div style="flex: 1 1 0px; min-width: 1px; display: flex; flex-direction: column;">
+                                    <div style="display: flex">
+                                        <div style="max-width: 100%; width: 100%; white-space: pre-wrap; word-break: break-word; caret-color: rgb(55, 53, 47); padding: 3px 2px; text-align: left;">스코프는 중첩 관계에 의해 스코프 체인을 형성해야 한다. 즉, 스코프 체인을 통해 상위 스코프로 이동하여 식별자를 검색할 수 있어야 한다.</div>
+                                    </div></div>
+                            </div>
+                        </div><div style="width: 100%;margin-top: 1px; margin-bottom: 1px;">
+                            <div style="display: flex; align-items: flex-start; width: 100%; padding-left: 2px; color: inherit; fill: inherit;">
+                                <div style="user-select: none; --pseudoSelection--background: transparent; margin-right: 2px; width: unset; display: flex; align-items: center; justify-content: center; flex-grow: 0; flex-shrink: 0; min-height: calc(1.5em + 6px);">
+                                    <span style="text-align: center; white-space: nowrap; width:24px">3. </span>
+                                </div>
+                                <div style="flex: 1 1 0px; min-width: 1px; display: flex; flex-direction: column;">
+                                    <div style="display: flex">
+                                        <div style="max-width: 100%; width: 100%; white-space: pre-wrap; word-break: break-word; caret-color: rgb(55, 53, 47); padding: 3px 2px; text-align: left;">현재 실행 중인 코드의 실행 순서를 변경(예를 들어, 함수 호출에 의한 실행 순서 변경)할 수 있어야 하며 다시 되돌아갈 수도 있어야 한다.</div>
+                                    </div></div>
+                            </div>
+                        </div></div><!----><!--]--><!--[--><!----><!----><!----><div style="width:100%;margin-top:2px;margin-bottom:1px;"><div style="color:inherit;fill:inherit;"><div style="display:flex;"><div style="max-width:100%;width:100%;white-space:pre-wrap;word-break:break-word;caret-color:rgb(55, 53, 47);padding:3px 2px;"><span> </span></div></div></div></div><!----><!----><!----><!----><!----><!----><!----><!--]--><!--[--><!----><!----><!----><div style="width:100%;margin-top:2px;margin-bottom:1px;"><div style="color:inherit;fill:inherit;"><div style="display:flex;"><div style="max-width:100%;width:100%;white-space:pre-wrap;word-break:break-word;caret-color:rgb(55, 53, 47);padding:3px 2px;"><span>이 모든 것을 관리하는 것이 바로 <strong>실행 컨텍스트</strong>다. 실행 컨텍스트는 소스코드를 실행하는 데 필요한 환경을 제공하고 코드의 실행 결과를 실제로 관리하는 영역이다.</span></div></div></div></div><!----><!----><!----><!----><!----><!----><!----><!--]--><!--[--><!----><!----><!----><div style="width:100%;margin-top:2px;margin-bottom:1px;"><div style="color:inherit;fill:inherit;"><div style="display:flex;"><div style="max-width:100%;width:100%;white-space:pre-wrap;word-break:break-word;caret-color:rgb(55, 53, 47);padding:3px 2px;"><span>구체적으로 실행 컨텍스트는 <strong>식별자를 등록하고 관리하는 스코프와 코드 실행 순서를 구현한 내부 메커니즘으로, 모든 코드는 실행 컨텍스트를 통해 실행되고 관리된다.</strong></span></div></div></div></div><!----><!----><!----><!----><!----><!----><!----><!--]--><!--[--><!----><!----><!----><div style="width:100%;margin-top:2px;margin-bottom:1px;"><div style="color:inherit;fill:inherit;"><div style="display:flex;"><div style="max-width:100%;width:100%;white-space:pre-wrap;word-break:break-word;caret-color:rgb(55, 53, 47);padding:3px 2px;"><span> </span></div></div></div></div><!----><!----><!----><!----><!----><!----><!----><!--]--><!--[--><!----><!----><!----><div style="width:100%;margin-top:2px;margin-bottom:1px;"><div style="color:inherit;fill:inherit;"><div style="display:flex;"><div style="max-width:100%;width:100%;white-space:pre-wrap;word-break:break-word;caret-color:rgb(55, 53, 47);padding:3px 2px;"><span>식별자와 스코프는 실행 컨텍스트의 <strong>렉시컬 환경</strong>으로 관리하고</span></div></div></div></div><!----><!----><!----><!----><!----><!----><!----><!--]--><!--[--><!----><!----><!----><div style="width:100%;margin-top:2px;margin-bottom:1px;"><div style="color:inherit;fill:inherit;"><div style="display:flex;"><div style="max-width:100%;width:100%;white-space:pre-wrap;word-break:break-word;caret-color:rgb(55, 53, 47);padding:3px 2px;"><span>코드 실행 순서는 <strong>실행 컨텍스트 스택</strong>으로 관리한다.</span></div></div></div></div><!----><!----><!----><!----><!----><!----><!----><!--]--><!--[--><div style="width:100%;max-width:1278px;margin-top:2em;margin-bottom:4px;"><div style="display:flex;width:100%;color:inherit;fill:inherit;"><h2 style="max-width:100%;width:100%;white-space:pre-wrap;word-break:break-word;caret-color:rgb(55, 53, 47);padding:3px 2px;font-family:ui-sans-serif, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Helvetica, &quot;Apple Color Emoji&quot;, Arial, sans-serif, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;;font-weight:600;font-size:1.875em;line-height:1.3;margin:0px;"><!--[--><!--[-->실행 컨텍스트 스택<!--]--><!--]--></h2><div style="position:relative;left:0px;"></div></div></div><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!--]--><!--[--><!----><!----><!----><!----><!----><!----><!----><div style="width:100%;margin-top:4px;margin-bottom:4px;"><div style="flex-grow:1;flex-shrink:1;text-align:left;font-family:SFMono-Regular, Menlo, Consolas, &#39;PT Mono&#39;, &#39;Liberation Mono&#39;, Courier, monospace;font-size:85%;tab-size:2;min-height:1em;color:rgb(55, 53, 47);white-space:pre-wrap;word-break:break-all;min-width:0px;"><pre><code class="language-javascript">const x = 1;
+
+function foo() {
+    const y = 2;
+    
+    function bar() {
+        const z = 3;
+        console.log(x, y, z);
+    }
+    bar();
+}
+foo();
+</code></pre></div></div><!----><!----><!----><!--]--><!--[--><!----><!----><!----><div style="width:100%;margin-top:2px;margin-bottom:1px;"><div style="color:inherit;fill:inherit;"><div style="display:flex;"><div style="max-width:100%;width:100%;white-space:pre-wrap;word-break:break-word;caret-color:rgb(55, 53, 47);padding:3px 2px;"><span>자바스크립트 엔진은 먼저 전역 코드를 평가하여 전역 실행 컨텍스트를 생성한다. 그리고 함수가 호출되면 함수 코드를 평가하여 함수 실행 컨텍스트를 생성한다. 이때 생성된 실행 컨텍스트는 스택 자료구조로 관리된다.</span></div></div></div></div><!----><!----><!----><!----><!----><!----><!----><!--]--><!--[--><!----><!----><!----><!----><!----><!----><!----><!----><!----><div><div style="width: 100%;margin-top: 1px; margin-bottom: 1px;">
+                            <div style="display: flex; align-items: flex-start; width: 100%; padding-left: 2px; color: inherit; fill: inherit;">
+                                <div style="user-select: none; --pseudoSelection--background: transparent; margin-right: 2px; width: unset; display: flex; align-items: center; justify-content: center; flex-grow: 0; flex-shrink: 0; min-height: calc(1.5em + 6px);">
+                                    <span style="text-align: center; white-space: nowrap; width:24px">1. </span>
+                                </div>
+                                <div style="flex: 1 1 0px; min-width: 1px; display: flex; flex-direction: column;">
+                                    <div style="display: flex">
+                                        <div style="max-width: 100%; width: 100%; white-space: pre-wrap; word-break: break-word; caret-color: rgb(55, 53, 47); padding: 3px 2px; text-align: left;">전역 코드의 평가와 실행
+</div>
+                                    </div><div style="width: 100%;margin-top: 1px; margin-bottom: 1px;">
+                            <div style="display: flex; align-items: flex-start; width: 100%; padding-left: 2px; color: inherit; fill: inherit;">
+                                <div style="user-select: none; --pseudoSelection--background: transparent; margin-right: 2px; width: unset; display: flex; align-items: center; justify-content: center; flex-grow: 0; flex-shrink: 0; min-height: calc(1.5em + 6px);">
+                                    <span style="text-align: center; white-space: nowrap; width:24px">a. </span>
+                                </div>
+                                <div style="flex: 1 1 0px; min-width: 1px; display: flex; flex-direction: column;">
+                                    <div style="display: flex">
+                                        <div style="max-width: 100%; width: 100%; white-space: pre-wrap; word-break: break-word; caret-color: rgb(55, 53, 47); padding: 3px 2px; text-align: left;">전역 실행 컨텍스트를 생성하고, 스택에 푸시, 이때 x와 foo는 전역 실행 컨텍스트에 등록, 전역 코드가 실행되기 시작하여 x에 값이 할당되고 전역 함수 foo가 호출 됨</div>
+                                    </div></div>
+                            </div>
+                        </div></div>
+                            </div>
+                        </div><div style="width: 100%;margin-top: 1px; margin-bottom: 1px;">
+                            <div style="display: flex; align-items: flex-start; width: 100%; padding-left: 2px; color: inherit; fill: inherit;">
+                                <div style="user-select: none; --pseudoSelection--background: transparent; margin-right: 2px; width: unset; display: flex; align-items: center; justify-content: center; flex-grow: 0; flex-shrink: 0; min-height: calc(1.5em + 6px);">
+                                    <span style="text-align: center; white-space: nowrap; width:24px">2. </span>
+                                </div>
+                                <div style="flex: 1 1 0px; min-width: 1px; display: flex; flex-direction: column;">
+                                    <div style="display: flex">
+                                        <div style="max-width: 100%; width: 100%; white-space: pre-wrap; word-break: break-word; caret-color: rgb(55, 53, 47); padding: 3px 2px; text-align: left;">foo 함수 코드의 평가와 실행
+</div>
+                                    </div><div style="width: 100%;margin-top: 1px; margin-bottom: 1px;">
+                            <div style="display: flex; align-items: flex-start; width: 100%; padding-left: 2px; color: inherit; fill: inherit;">
+                                <div style="user-select: none; --pseudoSelection--background: transparent; margin-right: 2px; width: unset; display: flex; align-items: center; justify-content: center; flex-grow: 0; flex-shrink: 0; min-height: calc(1.5em + 6px);">
+                                    <span style="text-align: center; white-space: nowrap; width:24px">a. </span>
+                                </div>
+                                <div style="flex: 1 1 0px; min-width: 1px; display: flex; flex-direction: column;">
+                                    <div style="display: flex">
+                                        <div style="max-width: 100%; width: 100%; white-space: pre-wrap; word-break: break-word; caret-color: rgb(55, 53, 47); padding: 3px 2px; text-align: left;">전역 코드의 실행은 일시 중단되고 코드의 제어권이 foo 함수 내부로 이동, 엔진은 foo 함수 내부의 함수 코드를 평가하여 foo 함수 실행 컨텍스트를 생성하고 스택에 푸시, 이때 y와 bar가 foo 함수 실행 컨텍스트에 등록 됨, 이후 foo 함수 코드가 실행되기 시작하여 y에 값이 할당되고 bar가 호출 됨.</div>
+                                    </div></div>
+                            </div>
+                        </div></div>
+                            </div>
+                        </div><div style="width: 100%;margin-top: 1px; margin-bottom: 1px;">
+                            <div style="display: flex; align-items: flex-start; width: 100%; padding-left: 2px; color: inherit; fill: inherit;">
+                                <div style="user-select: none; --pseudoSelection--background: transparent; margin-right: 2px; width: unset; display: flex; align-items: center; justify-content: center; flex-grow: 0; flex-shrink: 0; min-height: calc(1.5em + 6px);">
+                                    <span style="text-align: center; white-space: nowrap; width:24px">3. </span>
+                                </div>
+                                <div style="flex: 1 1 0px; min-width: 1px; display: flex; flex-direction: column;">
+                                    <div style="display: flex">
+                                        <div style="max-width: 100%; width: 100%; white-space: pre-wrap; word-break: break-word; caret-color: rgb(55, 53, 47); padding: 3px 2px; text-align: left;">bar 함수 코드의 평가와 실행
+</div>
+                                    </div><div style="width: 100%;margin-top: 1px; margin-bottom: 1px;">
+                            <div style="display: flex; align-items: flex-start; width: 100%; padding-left: 2px; color: inherit; fill: inherit;">
+                                <div style="user-select: none; --pseudoSelection--background: transparent; margin-right: 2px; width: unset; display: flex; align-items: center; justify-content: center; flex-grow: 0; flex-shrink: 0; min-height: calc(1.5em + 6px);">
+                                    <span style="text-align: center; white-space: nowrap; width:24px">a. </span>
+                                </div>
+                                <div style="flex: 1 1 0px; min-width: 1px; display: flex; flex-direction: column;">
+                                    <div style="display: flex">
+                                        <div style="max-width: 100%; width: 100%; white-space: pre-wrap; word-break: break-word; caret-color: rgb(55, 53, 47); padding: 3px 2px; text-align: left;">foo 함수 코드의 실행은 일시 중단되고 코드의 제어권이 bar 함수 내부로 이동, 엔진은 bar 함수 내부의 함수 코드를 평가하여 bar 함수 실행 컨텍스트를 생성하고 스택에 푸시, 이때 z가 bar 함수 실행 컨텍스트에 등록 됨, 이후 bar 함수 코드가 실행되기 시작하며 x에 값이 할당되고 console.log 가 호출되고 bar 함수는 종료</div>
+                                    </div></div>
+                            </div>
+                        </div></div>
+                            </div>
+                        </div><div style="width: 100%;margin-top: 1px; margin-bottom: 1px;">
+                            <div style="display: flex; align-items: flex-start; width: 100%; padding-left: 2px; color: inherit; fill: inherit;">
+                                <div style="user-select: none; --pseudoSelection--background: transparent; margin-right: 2px; width: unset; display: flex; align-items: center; justify-content: center; flex-grow: 0; flex-shrink: 0; min-height: calc(1.5em + 6px);">
+                                    <span style="text-align: center; white-space: nowrap; width:24px">4. </span>
+                                </div>
+                                <div style="flex: 1 1 0px; min-width: 1px; display: flex; flex-direction: column;">
+                                    <div style="display: flex">
+                                        <div style="max-width: 100%; width: 100%; white-space: pre-wrap; word-break: break-word; caret-color: rgb(55, 53, 47); padding: 3px 2px; text-align: left;">foo 함수 코드로 복귀
+</div>
+                                    </div><div style="width: 100%;margin-top: 1px; margin-bottom: 1px;">
+                            <div style="display: flex; align-items: flex-start; width: 100%; padding-left: 2px; color: inherit; fill: inherit;">
+                                <div style="user-select: none; --pseudoSelection--background: transparent; margin-right: 2px; width: unset; display: flex; align-items: center; justify-content: center; flex-grow: 0; flex-shrink: 0; min-height: calc(1.5em + 6px);">
+                                    <span style="text-align: center; white-space: nowrap; width:24px">a. </span>
+                                </div>
+                                <div style="flex: 1 1 0px; min-width: 1px; display: flex; flex-direction: column;">
+                                    <div style="display: flex">
+                                        <div style="max-width: 100%; width: 100%; white-space: pre-wrap; word-break: break-word; caret-color: rgb(55, 53, 47); padding: 3px 2px; text-align: left;">bar 함수가 종료되면 코드의 제어권이 foo 함수로 이동. bar 함수 실행 컨텍스트는 스택에서 제거, 그리고 foo 함수는 더 이상 실행할 코드가 없으므로 종료</div>
+                                    </div></div>
+                            </div>
+                        </div></div>
+                            </div>
+                        </div><div style="width: 100%;margin-top: 1px; margin-bottom: 1px;">
+                            <div style="display: flex; align-items: flex-start; width: 100%; padding-left: 2px; color: inherit; fill: inherit;">
+                                <div style="user-select: none; --pseudoSelection--background: transparent; margin-right: 2px; width: unset; display: flex; align-items: center; justify-content: center; flex-grow: 0; flex-shrink: 0; min-height: calc(1.5em + 6px);">
+                                    <span style="text-align: center; white-space: nowrap; width:24px">5. </span>
+                                </div>
+                                <div style="flex: 1 1 0px; min-width: 1px; display: flex; flex-direction: column;">
+                                    <div style="display: flex">
+                                        <div style="max-width: 100%; width: 100%; white-space: pre-wrap; word-break: break-word; caret-color: rgb(55, 53, 47); padding: 3px 2px; text-align: left;">전역 코드로 복귀
+</div>
+                                    </div><div style="width: 100%;margin-top: 1px; margin-bottom: 1px;">
+                            <div style="display: flex; align-items: flex-start; width: 100%; padding-left: 2px; color: inherit; fill: inherit;">
+                                <div style="user-select: none; --pseudoSelection--background: transparent; margin-right: 2px; width: unset; display: flex; align-items: center; justify-content: center; flex-grow: 0; flex-shrink: 0; min-height: calc(1.5em + 6px);">
+                                    <span style="text-align: center; white-space: nowrap; width:24px">a. </span>
+                                </div>
+                                <div style="flex: 1 1 0px; min-width: 1px; display: flex; flex-direction: column;">
+                                    <div style="display: flex">
+                                        <div style="max-width: 100%; width: 100%; white-space: pre-wrap; word-break: break-word; caret-color: rgb(55, 53, 47); padding: 3px 2px; text-align: left;">foo 함수가 종료되면 코드의 제어권이 전역 코드로 이동. foo 함수 실행 컨텍스트는 스택에서 제거, 그리고 더 이상 실행할 코드가 남아 있지 않으므로 전역 실행 컨텍스트도 스택에서 제거</div>
+                                    </div></div>
+                            </div>
+                        </div></div>
+                            </div>
+                        </div></div><!----><!--]--><!--[--><!----><!----><!----><div style="width:100%;margin-top:2px;margin-bottom:1px;"><div style="color:inherit;fill:inherit;"><div style="display:flex;"><div style="max-width:100%;width:100%;white-space:pre-wrap;word-break:break-word;caret-color:rgb(55, 53, 47);padding:3px 2px;"><span> </span></div></div></div></div><!----><!----><!----><!----><!----><!----><!----><!--]--><!--[--><!----><!----><!----><div style="width:100%;margin-top:2px;margin-bottom:1px;"><div style="color:inherit;fill:inherit;"><div style="display:flex;"><div style="max-width:100%;width:100%;white-space:pre-wrap;word-break:break-word;caret-color:rgb(55, 53, 47);padding:3px 2px;"><span>이처럼 실행 컨텍스트 스택은 코드의 실행 순서를 관리</span></div></div></div></div><!----><!----><!----><!----><!----><!----><!----><!--]--><!--[--><div style="width:100%;max-width:1278px;margin-top:2em;margin-bottom:4px;"><div style="display:flex;width:100%;color:inherit;fill:inherit;"><h2 style="max-width:100%;width:100%;white-space:pre-wrap;word-break:break-word;caret-color:rgb(55, 53, 47);padding:3px 2px;font-family:ui-sans-serif, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Helvetica, &quot;Apple Color Emoji&quot;, Arial, sans-serif, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;;font-weight:600;font-size:1.875em;line-height:1.3;margin:0px;"><!--[--><!--[-->렉시컬 환경<!--]--><!--]--></h2><div style="position:relative;left:0px;"></div></div></div><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!--]--><!--[--><!----><!----><!----><div style="width:100%;margin-top:2px;margin-bottom:1px;"><div style="color:inherit;fill:inherit;"><div style="display:flex;"><div style="max-width:100%;width:100%;white-space:pre-wrap;word-break:break-word;caret-color:rgb(55, 53, 47);padding:3px 2px;"><span>렉시컬 환경은 식별자와 식별자에 바인딩된 값, 그리고 상위 스코프에 대한 참조를 기록하는 자료구조로 실행 컨텍스트를 구성하는 컴포넌트다.</span></div></div></div></div><!----><!----><!----><!----><!----><!----><!----><!--]--><!--[--><!----><!----><!----><div style="width:100%;margin-top:2px;margin-bottom:1px;"><div style="color:inherit;fill:inherit;"><div style="display:flex;"><div style="max-width:100%;width:100%;white-space:pre-wrap;word-break:break-word;caret-color:rgb(55, 53, 47);padding:3px 2px;"><span>실행 컨텍스트 스택이 코드의 실행 순서를 관리한다면</span></div></div></div></div><!----><!----><!----><!----><!----><!----><!----><!--]--><!--[--><!----><!----><!----><div style="width:100%;margin-top:2px;margin-bottom:1px;"><div style="color:inherit;fill:inherit;"><div style="display:flex;"><div style="max-width:100%;width:100%;white-space:pre-wrap;word-break:break-word;caret-color:rgb(55, 53, 47);padding:3px 2px;"><span>렉시컬 환경은 스코프와 식별자를 관리한다.</span></div></div></div></div><!----><!----><!----><!----><!----><!----><!----><!--]--><!--[--><!----><!----><!----><div style="width:100%;margin-top:2px;margin-bottom:1px;"><div style="color:inherit;fill:inherit;"><div style="display:flex;"><div style="max-width:100%;width:100%;white-space:pre-wrap;word-break:break-word;caret-color:rgb(55, 53, 47);padding:3px 2px;"><span> </span></div></div></div></div><!----><!----><!----><!----><!----><!----><!----><!--]--><!--[--><!----><!----><!----><div style="width:100%;margin-top:2px;margin-bottom:1px;"><div style="color:inherit;fill:inherit;"><div style="display:flex;"><div style="max-width:100%;width:100%;white-space:pre-wrap;word-break:break-word;caret-color:rgb(55, 53, 47);padding:3px 2px;"><span>렉시컬 환경은 키와 값을 갖는 객체 형태의 스코프를 생성하여 식별자를 키로 등록하고 식별자에 바인딩된 값을 관리한다. 즉, 렉시컬 환경은 스코프를 구분하여 식별자를 등록하고 관리하는 저장소 역할을 하는 렉시컬 스코프의 실체다.</span></div></div></div></div><!----><!----><!----><!----><!----><!----><!----><!--]--><!--[--><!----><!----><!----><div style="width:100%;margin-top:2px;margin-bottom:1px;"><div style="color:inherit;fill:inherit;"><div style="display:flex;"><div style="max-width:100%;width:100%;white-space:pre-wrap;word-break:break-word;caret-color:rgb(55, 53, 47);padding:3px 2px;"><span> </span></div></div></div></div><!----><!----><!----><!----><!----><!----><!----><!--]--><!--[--><!----><!----><!----><div style="width:100%;margin-top:2px;margin-bottom:1px;"><div style="color:inherit;fill:inherit;"><div style="display:flex;"><div style="max-width:100%;width:100%;white-space:pre-wrap;word-break:break-word;caret-color:rgb(55, 53, 47);padding:3px 2px;"><span>렉시컬 환경은 <span style="font-family:'SFMono-Regular', Menlo, Consolas, 'PT Mono', 'Liberation Mono', Courier, monospace;line-height:normal;background:rgba(135,131,120,.15);color:#EB5757;border-radius:4px;font-size:85%;padding:0.2em 0.4em">환경레코드</span>와 <span style="font-family:'SFMono-Regular', Menlo, Consolas, 'PT Mono', 'Liberation Mono', Courier, monospace;line-height:normal;background:rgba(135,131,120,.15);color:#EB5757;border-radius:4px;font-size:85%;padding:0.2em 0.4em">외부 렉시컬 환경에 대한 참조</span> 두 개의 컴포넌트로 구성된다.</span></div></div></div></div><!----><!----><!----><!----><!----><!----><!----><!--]--><!--[--><div style="width:100%;max-width:1278px;margin-top:2em;margin-bottom:4px;"><div style="display:flex;width:100%;color:inherit;fill:inherit;"><h2 style="max-width:100%;width:100%;white-space:pre-wrap;word-break:break-word;caret-color:rgb(55, 53, 47);padding:3px 2px;font-family:ui-sans-serif, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Helvetica, &quot;Apple Color Emoji&quot;, Arial, sans-serif, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;;font-weight:600;font-size:1.875em;line-height:1.3;margin:0px;"><!--[--><!--[-->실행 컨텍스트의 생성과 식별자 검색 과정<!--]--><!--]--></h2><div style="position:relative;left:0px;"></div></div></div><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!--]--><!--[--><!----><!----><!----><!----><!----><!----><!----><!----><!----><div><div style="width: 100%;margin-top: 1px; margin-bottom: 1px;">
+                            <div style="display: flex; align-items: flex-start; width: 100%; padding-left: 2px; color: inherit; fill: inherit;">
+                                <div style="user-select: none; --pseudoSelection--background: transparent; margin-right: 2px; width: unset; display: flex; align-items: center; justify-content: center; flex-grow: 0; flex-shrink: 0; min-height: calc(1.5em + 6px);">
+                                    <span style="text-align: center; white-space: nowrap; width:24px">1. </span>
+                                </div>
+                                <div style="flex: 1 1 0px; min-width: 1px; display: flex; flex-direction: column;">
+                                    <div style="display: flex">
+                                        <div style="max-width: 100%; width: 100%; white-space: pre-wrap; word-break: break-word; caret-color: rgb(55, 53, 47); padding: 3px 2px; text-align: left;">전역 실행 컨텍스트 생성</div>
+                                    </div></div>
+                            </div>
+                        </div><div style="width: 100%;margin-top: 1px; margin-bottom: 1px;">
+                            <div style="display: flex; align-items: flex-start; width: 100%; padding-left: 2px; color: inherit; fill: inherit;">
+                                <div style="user-select: none; --pseudoSelection--background: transparent; margin-right: 2px; width: unset; display: flex; align-items: center; justify-content: center; flex-grow: 0; flex-shrink: 0; min-height: calc(1.5em + 6px);">
+                                    <span style="text-align: center; white-space: nowrap; width:24px">2. </span>
+                                </div>
+                                <div style="flex: 1 1 0px; min-width: 1px; display: flex; flex-direction: column;">
+                                    <div style="display: flex">
+                                        <div style="max-width: 100%; width: 100%; white-space: pre-wrap; word-break: break-word; caret-color: rgb(55, 53, 47); padding: 3px 2px; text-align: left;">전역 렉시컬 환경 생성
+</div>
+                                    </div><div style="width: 100%;margin-top: 1px; margin-bottom: 1px;">
+                            <div style="display: flex; align-items: flex-start; width: 100%; padding-left: 2px; color: inherit; fill: inherit;">
+                                <div style="user-select: none; --pseudoSelection--background: transparent; margin-right: 2px; width: unset; display: flex; align-items: center; justify-content: center; flex-grow: 0; flex-shrink: 0; min-height: calc(1.5em + 6px);">
+                                    <span style="text-align: center; white-space: nowrap; width:24px">a. </span>
+                                </div>
+                                <div style="flex: 1 1 0px; min-width: 1px; display: flex; flex-direction: column;">
+                                    <div style="display: flex">
+                                        <div style="max-width: 100%; width: 100%; white-space: pre-wrap; word-break: break-word; caret-color: rgb(55, 53, 47); padding: 3px 2px; text-align: left;">전역 환경 레코드 생성
+</div>
+                                    </div><div style="width: 100%;margin-top: 1px; margin-bottom: 1px;">
+                            <div style="display: flex; align-items: flex-start; width: 100%; padding-left: 2px; color: inherit; fill: inherit;">
+                                <div style="user-select: none; --pseudoSelection--background: transparent; margin-right: 2px; width: unset; display: flex; align-items: center; justify-content: center; flex-grow: 0; flex-shrink: 0; min-height: calc(1.5em + 6px);">
+                                    <span style="text-align: center; white-space: nowrap; width:56px">i. </span>
+                                </div>
+                                <div style="flex: 1 1 0px; min-width: 1px; display: flex; flex-direction: column;">
+                                    <div style="display: flex">
+                                        <div style="max-width: 100%; width: 100%; white-space: pre-wrap; word-break: break-word; caret-color: rgb(55, 53, 47); padding: 3px 2px; text-align: left;">객체 환경 레코드 생성</div>
+                                    </div></div>
+                            </div>
+                        </div><div style="width: 100%;margin-top: 1px; margin-bottom: 1px;">
+                            <div style="display: flex; align-items: flex-start; width: 100%; padding-left: 2px; color: inherit; fill: inherit;">
+                                <div style="user-select: none; --pseudoSelection--background: transparent; margin-right: 2px; width: unset; display: flex; align-items: center; justify-content: center; flex-grow: 0; flex-shrink: 0; min-height: calc(1.5em + 6px);">
+                                    <span style="text-align: center; white-space: nowrap; width:56px">ii. </span>
+                                </div>
+                                <div style="flex: 1 1 0px; min-width: 1px; display: flex; flex-direction: column;">
+                                    <div style="display: flex">
+                                        <div style="max-width: 100%; width: 100%; white-space: pre-wrap; word-break: break-word; caret-color: rgb(55, 53, 47); padding: 3px 2px; text-align: left;">선언적 환경 레코드 생성</div>
+                                    </div></div>
+                            </div>
+                        </div></div>
+                            </div>
+                        </div><div style="width: 100%;margin-top: 1px; margin-bottom: 1px;">
+                            <div style="display: flex; align-items: flex-start; width: 100%; padding-left: 2px; color: inherit; fill: inherit;">
+                                <div style="user-select: none; --pseudoSelection--background: transparent; margin-right: 2px; width: unset; display: flex; align-items: center; justify-content: center; flex-grow: 0; flex-shrink: 0; min-height: calc(1.5em + 6px);">
+                                    <span style="text-align: center; white-space: nowrap; width:24px">b. </span>
+                                </div>
+                                <div style="flex: 1 1 0px; min-width: 1px; display: flex; flex-direction: column;">
+                                    <div style="display: flex">
+                                        <div style="max-width: 100%; width: 100%; white-space: pre-wrap; word-break: break-word; caret-color: rgb(55, 53, 47); padding: 3px 2px; text-align: left;">this 바인딩</div>
+                                    </div></div>
+                            </div>
+                        </div><div style="width: 100%;margin-top: 1px; margin-bottom: 1px;">
+                            <div style="display: flex; align-items: flex-start; width: 100%; padding-left: 2px; color: inherit; fill: inherit;">
+                                <div style="user-select: none; --pseudoSelection--background: transparent; margin-right: 2px; width: unset; display: flex; align-items: center; justify-content: center; flex-grow: 0; flex-shrink: 0; min-height: calc(1.5em + 6px);">
+                                    <span style="text-align: center; white-space: nowrap; width:24px">c. </span>
+                                </div>
+                                <div style="flex: 1 1 0px; min-width: 1px; display: flex; flex-direction: column;">
+                                    <div style="display: flex">
+                                        <div style="max-width: 100%; width: 100%; white-space: pre-wrap; word-break: break-word; caret-color: rgb(55, 53, 47); padding: 3px 2px; text-align: left;">외부 렉시컬 환경에 대한 참조 결정</div>
+                                    </div></div>
+                            </div>
+                        </div></div>
+                            </div>
+                        </div></div><!----><!--]--><!--[--><!----><!----><!----><!----><!----><!----><div style="width:100%;align-self:center;margin-top:4px;margin-bottom:4px;"><div><div style="display:flex;"><div style="position:relative;overflow:hidden;flex-grow:1;padding-right:10px;"><div style="position:relative;cursor:pointer;"><div><div style="height:100%;width:100%;"><img loading="lazy" src="/blog/images/bb0b9477-c8f2-4187-bf10-3ed54c770d7c.png" referrerpolicy="same-origin" style="display:block;object-fit:cover;border-radius:1px;pointer-events:auto;"></div></div></div></div></div></div></div><!----><!----><!----><!----><!--]--><!--[--><!----><!----><!----><div style="width:100%;margin-top:2px;margin-bottom:1px;"><div style="color:inherit;fill:inherit;"><div style="display:flex;"><div style="max-width:100%;width:100%;white-space:pre-wrap;word-break:break-word;caret-color:rgb(55, 53, 47);padding:3px 2px;"><span>각 실행 과정에 대한 자세한 내용은 책 참고 (양이 엄청 많음 ㅠㅠ)</span></div></div></div></div><!----><!----><!----><!----><!----><!----><!----><!--]--><!--[--><div style="width:100%;max-width:1278px;margin-top:2em;margin-bottom:4px;"><div style="display:flex;width:100%;color:inherit;fill:inherit;"><h2 style="max-width:100%;width:100%;white-space:pre-wrap;word-break:break-word;caret-color:rgb(55, 53, 47);padding:3px 2px;font-family:ui-sans-serif, -apple-system, BlinkMacSystemFont, &quot;Segoe UI&quot;, Helvetica, &quot;Apple Color Emoji&quot;, Arial, sans-serif, &quot;Segoe UI Emoji&quot;, &quot;Segoe UI Symbol&quot;;font-weight:600;font-size:1.875em;line-height:1.3;margin:0px;"><!--[--><!--[-->실행 컨텍스트와 블록 레벨 스코프<!--]--><!--]--></h2><div style="position:relative;left:0px;"></div></div></div><!----><!----><!----><!----><!----><!----><!----><!----><!----><!----><!--]--><!--[--><!----><!----><!----><!----><!----><!----><!----><div style="width:100%;margin-top:4px;margin-bottom:4px;"><div style="flex-grow:1;flex-shrink:1;text-align:left;font-family:SFMono-Regular, Menlo, Consolas, &#39;PT Mono&#39;, &#39;Liberation Mono&#39;, Courier, monospace;font-size:85%;tab-size:2;min-height:1em;color:rgb(55, 53, 47);white-space:pre-wrap;word-break:break-all;min-width:0px;"><pre><code class="language-javascript">let x = 1;
+
+if (true) {
+    let x = 10;
+    console.log(x);
+}
+console.log(x);
+</code></pre></div></div><!----><!----><!----><!--]--><!--[--><!----><!----><!----><div style="width:100%;margin-top:2px;margin-bottom:1px;"><div style="color:inherit;fill:inherit;"><div style="display:flex;"><div style="max-width:100%;width:100%;white-space:pre-wrap;word-break:break-word;caret-color:rgb(55, 53, 47);padding:3px 2px;"><span> </span></div></div></div></div><!----><!----><!----><!----><!----><!----><!----><!--]--><!--[--><!----><!----><!----><div style="width:100%;margin-top:2px;margin-bottom:1px;"><div style="color:inherit;fill:inherit;"><div style="display:flex;"><div style="max-width:100%;width:100%;white-space:pre-wrap;word-break:break-word;caret-color:rgb(55, 53, 47);padding:3px 2px;"><span>if 문의 코드 블록 내에서 let 키워드로 변수가 선언 됨. 따라서 if 문의 코드 블록이 실행되면 if 문의 코드 블록을 위한 블록 레벨 스코프를 생성해야 함.</span></div></div></div></div><!----><!----><!----><!----><!----><!----><!----><!--]--><!--[--><!----><!----><!----><div style="width:100%;margin-top:2px;margin-bottom:1px;"><div style="color:inherit;fill:inherit;"><div style="display:flex;"><div style="max-width:100%;width:100%;white-space:pre-wrap;word-break:break-word;caret-color:rgb(55, 53, 47);padding:3px 2px;"><span>이를 위해 선언적 환경 레코드(Declarative…)를 갖는 렉시컬 환경을 새롭게 생성</span></div></div></div></div><!----><!----><!----><!----><!----><!----><!----><!--]--><!--[--><!----><!----><!----><!----><!----><!----><div style="width:100%;align-self:center;margin-top:4px;margin-bottom:4px;"><div><div style="display:flex;"><div style="position:relative;overflow:hidden;flex-grow:1;padding-right:10px;"><div style="position:relative;cursor:pointer;"><div><div style="height:100%;width:100%;"><img loading="lazy" src="/blog/images/9d857c76-da89-4ee8-9707-5bc4bc2e7145.png" referrerpolicy="same-origin" style="display:block;object-fit:cover;border-radius:1px;pointer-events:auto;"></div></div></div></div></div></div></div><!----><!----><!----><!----><!--]--><!--[--><!----><!----><!----><div style="width:100%;margin-top:2px;margin-bottom:1px;"><div style="color:inherit;fill:inherit;"><div style="display:flex;"><div style="max-width:100%;width:100%;white-space:pre-wrap;word-break:break-word;caret-color:rgb(55, 53, 47);padding:3px 2px;"><span>기존에 렉시컬 환경을 교체</span></div></div></div></div><!----><!----><!----><!----><!----><!----><!----><!--]--><!--[--><!----><!----><!----><!----><!----><!----><div style="width:100%;align-self:center;margin-top:4px;margin-bottom:4px;"><div><div style="display:flex;"><div style="position:relative;overflow:hidden;flex-grow:1;padding-right:10px;"><div style="position:relative;cursor:pointer;"><div><div style="height:100%;width:100%;"><img loading="lazy" src="/blog/images/b1992f9b-536a-4017-958b-b706bc4391f1.png" referrerpolicy="same-origin" style="display:block;object-fit:cover;border-radius:1px;pointer-events:auto;"></div></div></div></div></div></div></div><!----><!----><!----><!----><!--]--><!--[--><!----><!----><!----><div style="width:100%;margin-top:2px;margin-bottom:1px;"><div style="color:inherit;fill:inherit;"><div style="display:flex;"><div style="max-width:100%;width:100%;white-space:pre-wrap;word-break:break-word;caret-color:rgb(55, 53, 47);padding:3px 2px;"><span>코드 블록의 실행이 종료되면 다시 돌림</span></div></div></div></div><!----><!----><!----><!----><!----><!----><!----><!--]--><!--[--><!----><!----><!----><!----><!----><!----><div style="width:100%;align-self:center;margin-top:4px;margin-bottom:4px;"><div><div style="display:flex;"><div style="position:relative;overflow:hidden;flex-grow:1;padding-right:10px;"><div style="position:relative;cursor:pointer;"><div><div style="height:100%;width:100%;"><img loading="lazy" src="/blog/images/dc5cb4ae-b8a7-4f03-a8f8-2eb5a9c461ad.png" referrerpolicy="same-origin" style="display:block;object-fit:cover;border-radius:1px;pointer-events:auto;"></div></div></div></div></div></div></div><!----><!----><!----><!----><!--]--><!--]--></article><!--]--><div class="pb-4"><div></div></div><!--]--><!--]--></div></div><!--]--></div><script type="application/json" id="__NUXT_DATA__" data-ssr="true" data-src="/blog/posts/c1c34454-3dfe-4bbf-bea0-97b3cfc73165/_payload.json">[{"state":1,"once":3,"_errors":5,"serverRendered":8,"path":9,"prerenderedAt":10},["Reactive",2],{},["Reactive",4],["Set"],["Reactive",6],{"content-query-kHytCMW6tJ":7},null,true,"/posts/c1c34454-3dfe-4bbf-bea0-97b3cfc73165",1718180471435]</script>
+<script>window.__NUXT__={};window.__NUXT__.config={public:{mdc:{components:{prose:true,map:{p:"prose-p",a:"prose-a",blockquote:"prose-blockquote","code-inline":"prose-code-inline",code:"ProseCodeInline",em:"prose-em",h1:"prose-h1",h2:"prose-h2",h3:"prose-h3",h4:"prose-h4",h5:"prose-h5",h6:"prose-h6",hr:"prose-hr",img:"prose-img",ul:"prose-ul",ol:"prose-ol",li:"prose-li",strong:"prose-strong",table:"prose-table",thead:"prose-thead",tbody:"prose-tbody",td:"prose-td",th:"prose-th",tr:"prose-tr"}},headings:{anchorLinks:{h1:false,h2:true,h3:true,h4:true,h5:false,h6:false}}},content:{locales:[],defaultLocale:"",integrity:1718180465733,experimental:{stripQueryParameters:false,advanceQuery:false,clientDB:false},respectPathCase:false,api:{baseURL:"/api/_content"},navigation:{fields:[]},tags:{p:"prose-p",a:"prose-a",blockquote:"prose-blockquote","code-inline":"prose-code-inline",code:"ProseCodeInline",em:"prose-em",h1:"prose-h1",h2:"prose-h2",h3:"prose-h3",h4:"prose-h4",h5:"prose-h5",h6:"prose-h6",hr:"prose-hr",img:"prose-img",ul:"prose-ul",ol:"prose-ol",li:"prose-li",strong:"prose-strong",table:"prose-table",thead:"prose-thead",tbody:"prose-tbody",td:"prose-td",th:"prose-th",tr:"prose-tr"},highlight:false,wsUrl:"",documentDriven:false,host:"",trailingSlash:false,search:"",contentHead:true,anchorLinks:{depth:4,exclude:[1]}}},app:{baseURL:"/blog/",buildAssetsDir:"/_nuxt/",cdnURL:""}}</script></body>
+</html>
